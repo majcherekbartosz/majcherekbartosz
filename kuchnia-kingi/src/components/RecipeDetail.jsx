@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 
-const CHECKOUT_URL = 'https://twojsklep.pl/checkout';
+const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
 export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -159,7 +159,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
                 Przepis Premium
               </h3>
               <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-xs mx-auto">
-                Ten przepis jest częścią ekskluzywnej kolekcji. Zdobądź pełny dostęp do wszystkich przepisów Kingi!
+                Ten przepis to część ekskluzywnej kolekcji. Odkryj wszystkie sekrety kulinarne Kingi!
               </p>
               <a
                 href={CHECKOUT_URL}
@@ -168,7 +168,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
               >
                 <ShoppingCart size={16} />
-                Kup pełny dostęp
+                Kup E-booka
               </a>
               <p className="text-xs text-gray-400 mt-4 font-serif italic">
                 Odblokuj wszystkie przepisy z kolekcji Kingi
@@ -237,7 +237,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
           className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
         >
           <ShoppingCart size={16} />
-          Kup E-booka z przepisami Kingi
+          Kup E-booka z przepisami
         </a>
         <p className="text-xs text-gray-400 mt-3 font-serif italic">
           „Z pamiętnika kulinarnego Kingi"
