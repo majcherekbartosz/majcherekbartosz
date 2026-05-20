@@ -227,7 +227,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
               onClick={() => fileInputRef.current?.click()}
               className="border-2 border-dashed border-cream-300 hover:border-terracotta-300 rounded-2xl p-6 text-center cursor-pointer transition-colors group"
             >
-              <div className="w-12 h-12 bg-cream-100 group-hover:bg-terracotta-400/10 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
+              <div className="w-12 h-12 bg-cream-100 group-hover:bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
                 <Camera size={22} className="text-terracotta-400" />
               </div>
               <p className="text-sm font-medium text-charcoal-700 mb-1">

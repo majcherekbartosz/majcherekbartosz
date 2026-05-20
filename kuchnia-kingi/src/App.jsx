@@ -5,6 +5,7 @@ import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
@@ -33,6 +34,7 @@ export default function App() {
   };
 
   return (
+    <ErrorBoundary>
     <div className="min-h-screen bg-cream-50">
       <Header
         onLogoClick={() => navigate('dashboard')}
@@ -76,5 +78,6 @@ export default function App() {
       </main>
       <Footer />
     </div>
+    </ErrorBoundary>
   );
 }

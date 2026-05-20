@@ -1,16 +1,47 @@
-# React + Vite
+# Kuchnia Kingi 🍽
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Pamiętnik kulinarny – premium culinary cookbook web application.
 
-Currently, two official plugins are available:
+## Uruchomienie (Getting Started)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Wymagania (Requirements)
+- [Node.js](https://nodejs.org/) **v18 lub nowszy**
+- npm (dołączony do Node.js)
 
-## React Compiler
+### Instalacja i uruchomienie
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 1. Przejdź do katalogu aplikacji
+cd kuchnia-kingi
 
-## Expanding the ESLint configuration
+# 2. Zainstaluj zależności
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 3. Uruchom serwer deweloperski
+npm run dev
+```
+
+Otwórz przeglądarkę i przejdź na adres: **http://localhost:5173**
+
+### Budowanie wersji produkcyjnej
+
+```bash
+npm run build
+npm run preview
+```
+
+## Funkcje
+
+- **Galeria przepisów** – responsywna siatka z filtrowaniem po kategorii i wyszukiwaniem
+- **Dodawanie/edycja przepisów** – formularz z dynamicznymi listami składników i kroków, obsługa zdjęć
+- **Widok przepisu** – elegancki układ dwukolumnowy ze składnikami i krokami
+- **Eksport do PDF** – generowanie profesjonalnego A4 z logiem i stopką "Z pamiętnika kulinarnego Kingi"
+- **Trwałość danych** – przepisy zapisywane w localStorage
+
+## Stack technologiczny
+
+- React 19 + Vite 8
+- Tailwind CSS 3
+- Lucide React (ikony)
+- html2pdf.js (generowanie PDF)
+- Google Fonts: Playfair Display + Inter
