@@ -1,0 +1,51 @@
+import { ChefHat, Plus, ArrowLeft } from 'lucide-react';
+
+export default function Header({ onLogoClick, onAddRecipe, showBack, onBack }) {
+  return (
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-cream-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-18">
+          <div className="flex items-center gap-3">
+            {showBack && (
+              <button
+                onClick={onBack}
+                className="flex items-center gap-1.5 text-charcoal-700 hover:text-terracotta-500 transition-colors mr-2"
+                aria-label="Wróć"
+              >
+                <ArrowLeft size={20} />
+                <span className="text-sm font-medium hidden sm:inline">Wróć</span>
+              </button>
+            )}
+            <button
+              onClick={onLogoClick}
+              className="flex items-center gap-2.5 group"
+              aria-label="Kuchnia Kingi – strona główna"
+            >
+              <div className="w-9 h-9 bg-gradient-to-br from-terracotta-400 to-terracotta-600 rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                <ChefHat size={18} className="text-white" />
+              </div>
+              <div className="leading-tight">
+                <span className="font-serif text-xl font-bold text-charcoal-800 tracking-tight">
+                  Kuchnia Kingi
+                </span>
+                <span className="block text-xs text-gray-400 font-sans leading-none -mt-0.5 hidden sm:block">
+                  pamiętnik kulinarny
+                </span>
+              </div>
+            </button>
+          </div>
+
+          <button
+            onClick={onAddRecipe}
+            className="flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 active:scale-95 text-white text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
+            aria-label="Dodaj przepis"
+          >
+            <Plus size={16} />
+            <span className="hidden sm:inline">Nowy przepis</span>
+            <span className="sm:hidden">Dodaj</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
