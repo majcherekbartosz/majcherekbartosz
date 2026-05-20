@@ -1,4 +1,4 @@
-import { Clock, Users, ChevronRight } from 'lucide-react';
+import { Clock, Users, ChevronRight, Lock } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 
 export default function RecipeCard({ recipe, onClick }) {
@@ -31,6 +31,14 @@ export default function RecipeCard({ recipe, onClick }) {
             {recipe.category}
           </span>
         </div>
+        {recipe.isPremium && (
+          <div className="absolute top-3 right-3">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wide bg-charcoal-800/80 text-cream-100 backdrop-blur-sm border border-cream-200/20 shadow-sm">
+              <Lock size={10} />
+              Premium
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}

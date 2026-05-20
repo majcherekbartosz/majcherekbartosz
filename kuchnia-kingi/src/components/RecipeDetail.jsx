@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Clock, Users, Edit3, Trash2, FileDown, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
-import { generateRecipePdf } from '../utils/generatePdf';
+
+const CHECKOUT_URL = 'https://twojsklep.pl/checkout';
 
 export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
-  const [pdfState, setPdfState] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!recipe) {
@@ -17,33 +17,6 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
   }
 
   const colors = CATEGORY_COLORS[recipe.category] || { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' };
-
-  const handleExportPdf = async () => {
-    setPdfState('loading');
-    try {
-      await generateRecipePdf(recipe);
-      setPdfState('success');
-      setTimeout(() => setPdfState('idle'), 3000);
-    } catch (err) {
-      console.error('PDF generation failed:', err);
-      setPdfState('error');
-      setTimeout(() => setPdfState('idle'), 4000);
-    }
-  };
-
-  const PdfButtonContent = () => {
-    if (pdfState === 'loading') return <><Loader2 size={16} className="animate-spin" /> Generuję PDF...</>;
-    if (pdfState === 'success') return <><CheckCircle size={16} /> Pobrano!</>;
-    if (pdfState === 'error') return <><AlertCircle size={16} /> Spróbuj ponownie</>;
-    return <><FileDown size={16} /> Eksportuj do PDF</>;
-  };
-
-  const pdfButtonClass = {
-    idle: 'bg-sage-500 hover:bg-sage-600 text-white',
-    loading: 'bg-sage-400 text-white cursor-wait',
-    success: 'bg-green-500 text-white',
-    error: 'bg-red-500 text-white',
-  }[pdfState];
 
   const formattedDate = new Date(recipe.createdAt).toLocaleDateString('pl-PL', {
     year: 'numeric',
@@ -71,6 +44,12 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
             <span className={`tag-pill ${colors.bg} ${colors.text} border ${colors.border} font-medium`}>
               {recipe.category}
             </span>
+            {recipe.isPremium && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-charcoal-800 text-cream-100 shadow-sm">
+                <Lock size={11} />
+                Premium
+              </span>
+            )}
             <span className="text-xs text-gray-400">{formattedDate}</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal-800 leading-tight mb-4">
@@ -90,27 +69,33 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <button
-            onClick={handleExportPdf}
-            disabled={pdfState === 'loading'}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 ${pdfButtonClass}`}
+          <a
+            href={CHECKOUT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
           >
-            <PdfButtonContent />
-          </button>
-          <button
-            onClick={onEdit}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 hover:border-terracotta-300 hover:text-terracotta-500 text-gray-500 transition-all duration-200 shadow-sm"
-            aria-label="Edytuj przepis"
-          >
-            <Edit3 size={16} />
-          </button>
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 hover:border-red-300 hover:text-red-500 text-gray-500 transition-all duration-200 shadow-sm"
-            aria-label="Usuń przepis"
-          >
-            <Trash2 size={16} />
-          </button>
+            <BookOpen size={16} />
+            Kup E-booka
+          </a>
+          {!recipe.isPremium && (
+            <>
+              <button
+                onClick={onEdit}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 hover:border-terracotta-300 hover:text-terracotta-500 text-gray-500 transition-all duration-200 shadow-sm"
+                aria-label="Edytuj przepis"
+              >
+                <Edit3 size={16} />
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 hover:border-red-300 hover:text-red-500 text-gray-500 transition-all duration-200 shadow-sm"
+                aria-label="Usuń przepis"
+              >
+                <Trash2 size={16} />
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -123,65 +108,137 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
         </div>
       )}
 
-      {/* Two-Column Layout: Ingredients + Steps */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-        {/* Ingredients */}
-        <div className="lg:col-span-2">
-          <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
-            Składniki
-          </h2>
-          <ul className="space-y-2.5">
-            {recipe.ingredients.map((ing, i) => (
-              <li key={i} className="flex items-start gap-3 group">
-                <div className="w-6 h-6 flex-shrink-0 bg-terracotta-500/10 group-hover:bg-terracotta-500 rounded-full flex items-center justify-center mt-0.5 transition-colors">
-                  <span className="text-terracotta-600 group-hover:text-white text-xs font-bold transition-colors">
-                    {i + 1}
-                  </span>
-                </div>
-                <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{ing}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* Content Section — Paywall or Full Content */}
+      {recipe.isPremium ? (
+        <div className="relative">
+          {/* Blurred content preview */}
+          <div className="select-none pointer-events-none filter blur-md opacity-60" aria-hidden="true">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+              <div className="lg:col-span-2">
+                <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
+                  Składniki
+                </h2>
+                <ul className="space-y-2.5">
+                  {recipe.ingredients.map((ing, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="w-6 h-6 flex-shrink-0 bg-terracotta-500/10 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-terracotta-600 text-xs font-bold">{i + 1}</span>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{ing}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="lg:col-span-3">
+                <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
+                  Sposób przygotowania
+                </h2>
+                <ol className="space-y-6">
+                  {recipe.steps.map((step, i) => (
+                    <li key={i} className="flex items-start gap-4">
+                      <div className="w-8 h-8 flex-shrink-0 bg-charcoal-800 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-white text-sm font-bold">{i + 1}</span>
+                      </div>
+                      <div className="flex-1 pt-1">
+                        <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{step}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
 
-        {/* Steps */}
-        <div className="lg:col-span-3">
-          <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
-            Sposób przygotowania
-          </h2>
-          <ol className="space-y-6">
-            {recipe.steps.map((step, i) => (
-              <li key={i} className="flex items-start gap-4">
-                <div className="w-8 h-8 flex-shrink-0 bg-charcoal-800 rounded-full flex items-center justify-center mt-0.5">
-                  <span className="text-white text-sm font-bold">{i + 1}</span>
-                </div>
-                <div className="flex-1 pt-1">
-                  <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{step}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          {/* Paywall overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cream-200 p-8 sm:p-10 max-w-md w-full mx-4 text-center">
+              <div className="w-16 h-16 bg-terracotta-500/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <Lock size={28} className="text-terracotta-500" />
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-charcoal-800 mb-3">
+                Przepis Premium
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-xs mx-auto">
+                Ten przepis jest częścią ekskluzywnej kolekcji. Zdobądź pełny dostęp do wszystkich przepisów Kingi!
+              </p>
+              <a
+                href={CHECKOUT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
+              >
+                <ShoppingCart size={16} />
+                Kup pełny dostęp
+              </a>
+              <p className="text-xs text-gray-400 mt-4 font-serif italic">
+                Odblokuj wszystkie przepisy z kolekcji Kingi
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        /* Full content for free recipes */
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Ingredients */}
+          <div className="lg:col-span-2">
+            <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
+              Składniki
+            </h2>
+            <ul className="space-y-2.5">
+              {recipe.ingredients.map((ing, i) => (
+                <li key={i} className="flex items-start gap-3 group">
+                  <div className="w-6 h-6 flex-shrink-0 bg-terracotta-500/10 group-hover:bg-terracotta-500 rounded-full flex items-center justify-center mt-0.5 transition-colors">
+                    <span className="text-terracotta-600 group-hover:text-white text-xs font-bold transition-colors">
+                      {i + 1}
+                    </span>
+                  </div>
+                  <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{ing}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Large PDF Export CTA at bottom */}
+          {/* Steps */}
+          <div className="lg:col-span-3">
+            <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
+              Sposób przygotowania
+            </h2>
+            <ol className="space-y-6">
+              {recipe.steps.map((step, i) => (
+                <li key={i} className="flex items-start gap-4">
+                  <div className="w-8 h-8 flex-shrink-0 bg-charcoal-800 rounded-full flex items-center justify-center mt-0.5">
+                    <span className="text-white text-sm font-bold">{i + 1}</span>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{step}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
+
+      {/* E-book CTA at bottom */}
       <div className="mt-12 bg-gradient-to-br from-cream-50 to-cream-100 rounded-3xl p-8 text-center border border-cream-200">
-        <div className="w-14 h-14 bg-sage-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <FileDown size={26} className="text-sage-500" />
+        <div className="w-14 h-14 bg-terracotta-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <BookOpen size={26} className="text-terracotta-500" />
         </div>
         <h3 className="font-serif text-xl font-semibold text-charcoal-800 mb-2">
-          Zapisz na zawsze
+          Wszystkie przepisy w jednym miejscu
         </h3>
         <p className="text-gray-500 text-sm mb-5 max-w-sm mx-auto">
-          Wyeksportuj ten przepis do elegancko sformatowanego pliku PDF, który możesz wydrukować lub udostępnić bliskim.
+          Kup e-booka z kompletną kolekcją przepisów Kingi — pięknie sformatowanych, gotowych do czytania na każdym urządzeniu.
         </p>
-        <button
-          onClick={handleExportPdf}
-          disabled={pdfState === 'loading'}
-          className={`inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 ${pdfButtonClass}`}
+        <a
+          href={CHECKOUT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
         >
-          <PdfButtonContent />
-        </button>
+          <ShoppingCart size={16} />
+          Kup E-booka z przepisami Kingi
+        </a>
         <p className="text-xs text-gray-400 mt-3 font-serif italic">
           „Z pamiętnika kulinarnego Kingi"
         </p>
