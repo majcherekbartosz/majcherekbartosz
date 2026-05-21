@@ -3,13 +3,14 @@ import { useRecipes } from './hooks/useRecipes';
 import Dashboard from './components/Dashboard';
 import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
+import AboutMe from './components/AboutMe';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
-  const [view, setView] = useState('dashboard'); // 'dashboard' | 'detail' | 'add' | 'edit'
+  const [view, setView] = useState('dashboard');
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
 
   const navigate = (newView, recipeId = null) => {
@@ -39,12 +40,14 @@ export default function App() {
       <Header
         onLogoClick={() => navigate('dashboard')}
         onAddRecipe={() => navigate('add')}
-        showBack={view !== 'dashboard'}
+        onAbout={() => navigate('about')}
+        showBack={view !== 'dashboard' && view !== 'about'}
         onBack={() => {
           if (view === 'detail') navigate('dashboard');
           else if (view === 'edit') navigate('detail', selectedRecipeId);
           else navigate('dashboard');
         }}
+        currentView={view}
       />
 
       <main className="min-h-screen">
@@ -75,6 +78,8 @@ export default function App() {
             }}
           />
         )}
+
+        {view === 'about' && <AboutMe />}
       </main>
       <Footer />
     </div>
