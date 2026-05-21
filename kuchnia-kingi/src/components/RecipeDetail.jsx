@@ -1,11 +1,18 @@
-import { useState } from 'react';
-import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
-export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
+export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  useEffect(() => {
+    if (recipe && onTrackView) {
+      onTrackView(recipe.id);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipe?.id]);
 
   if (!recipe) {
     return (
@@ -56,9 +63,21 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
             )}
             <span className="text-xs text-gray-400">{formattedDate}</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal-800 leading-tight mb-4">
-            {recipe.title}
-          </h1>
+          <div className="flex items-start gap-3 mb-4">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal-800 leading-tight">
+              {recipe.title}
+            </h1>
+            <button
+              onClick={() => onToggleFavorite && onToggleFavorite(recipe.id)}
+              className="flex-shrink-0 mt-2 w-10 h-10 flex items-center justify-center rounded-full bg-cream-50 border border-cream-200 hover:border-terracotta-300 transition-all duration-200 active:scale-90"
+              aria-label={isFavorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'}
+            >
+              <Heart
+                size={20}
+                className={isFavorite ? 'text-terracotta-500 fill-terracotta-500' : 'text-gray-400'}
+              />
+            </button>
+          </div>
           <div className="flex items-center gap-6 text-sm text-gray-500">
             <span className="flex items-center gap-2">
               <Clock size={15} className="text-terracotta-400" />
@@ -77,6 +96,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
             href={CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => onTrackEbookClick && onTrackEbookClick(recipe.id)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
           >
             <BookOpen size={16} />
@@ -169,6 +189,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
                 href={CHECKOUT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => onTrackEbookClick && onTrackEbookClick(recipe.id)}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
               >
                 <ShoppingCart size={16} />
@@ -238,6 +259,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
           href={CHECKOUT_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => onTrackEbookClick && onTrackEbookClick(recipe.id)}
           className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 bg-terracotta-500 hover:bg-terracotta-600 text-white"
         >
           <ShoppingCart size={16} />

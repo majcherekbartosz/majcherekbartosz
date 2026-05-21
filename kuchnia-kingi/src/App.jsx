@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { useRecipes } from './hooks/useRecipes';
+import { useFavorites } from './hooks/useFavorites';
+import { useAnalytics } from './hooks/useAnalytics';
 import Dashboard from './components/Dashboard';
 import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
 import AboutMe from './components/AboutMe';
+import FavoritesCollection from './components/FavoritesCollection';
+import AdminDashboard from './components/AdminDashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { stats, trackView, trackEbookClick } = useAnalytics();
   const [view, setView] = useState('dashboard');
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
 
@@ -41,7 +47,8 @@ export default function App() {
         onLogoClick={() => navigate('dashboard')}
         onAddRecipe={() => navigate('add')}
         onAbout={() => navigate('about')}
-        showBack={view !== 'dashboard' && view !== 'about'}
+        onFavorites={() => navigate('favorites')}
+        showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'admin'}
         onBack={() => {
           if (view === 'detail') navigate('dashboard');
           else if (view === 'edit') navigate('detail', selectedRecipeId);
@@ -56,6 +63,8 @@ export default function App() {
             recipes={recipes}
             onRecipeClick={(id) => navigate('detail', id)}
             onAddRecipe={() => navigate('add')}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
           />
         )}
 
@@ -65,6 +74,10 @@ export default function App() {
             onEdit={() => navigate('edit', selectedRecipeId)}
             onDelete={() => handleDelete(selectedRecipeId)}
             onBack={() => navigate('dashboard')}
+            isFavorite={isFavorite(selectedRecipeId)}
+            onToggleFavorite={toggleFavorite}
+            onTrackView={trackView}
+            onTrackEbookClick={trackEbookClick}
           />
         )}
 
@@ -80,8 +93,22 @@ export default function App() {
         )}
 
         {view === 'about' && <AboutMe />}
+
+        {view === 'favorites' && (
+          <FavoritesCollection
+            recipes={recipes}
+            favorites={favorites}
+            onRecipeClick={(id) => navigate('detail', id)}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+          />
+        )}
+
+        {view === 'admin' && (
+          <AdminDashboard recipes={recipes} stats={stats} />
+        )}
       </main>
-      <Footer />
+      <Footer onAdminClick={() => navigate('admin')} />
     </div>
     </ErrorBoundary>
   );

@@ -5,7 +5,7 @@ import { CATEGORIES } from '../data/mockRecipes';
 
 const ALL = 'Wszystkie';
 
-export default function Dashboard({ recipes, onRecipeClick, onAddRecipe }) {
+export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavorite, onToggleFavorite }) {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(ALL);
 
@@ -91,6 +91,8 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe }) {
               key={recipe.id}
               recipe={recipe}
               onClick={() => onRecipeClick(recipe.id)}
+              isFavorite={isFavorite(recipe.id)}
+              onToggleFavorite={onToggleFavorite}
             />
           ))}
         </div>
