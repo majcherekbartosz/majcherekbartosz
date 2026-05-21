@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart } from 'lucide-react';
+import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
+import { useShoppingList } from '../hooks/useShoppingList';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
 export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { toggleItem, isChecked, checkedCount } = useShoppingList(recipe?.id);
 
   useEffect(() => {
     if (recipe && onTrackView) {
@@ -204,22 +206,48 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
       ) : (
         /* Full content for free recipes */
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Ingredients */}
+          {/* Interactive Shopping List */}
           <div className="lg:col-span-2">
-            <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-5 pb-3 border-b-2 border-cream-200">
-              Składniki
-            </h2>
-            <ul className="space-y-2.5">
-              {recipe.ingredients.map((ing, i) => (
-                <li key={i} className="flex items-start gap-3 group">
-                  <div className="w-6 h-6 flex-shrink-0 bg-orange-100 group-hover:bg-terracotta-500 rounded-full flex items-center justify-center mt-0.5 transition-colors">
-                    <span className="text-terracotta-600 group-hover:text-white text-xs font-bold transition-colors">
-                      {i + 1}
+            <div className="flex items-center justify-between mb-5 pb-3 border-b-2 border-cream-200">
+              <h2 className="font-serif text-2xl font-semibold text-charcoal-800">
+                Składniki
+              </h2>
+              {checkedCount > 0 && (
+                <span className="text-xs text-sage-600 font-medium bg-green-50 px-2.5 py-1 rounded-full">
+                  {checkedCount}/{recipe.ingredients.length}
+                </span>
+              )}
+            </div>
+            <ul className="space-y-1.5">
+              {recipe.ingredients.map((ing, i) => {
+                const checked = isChecked(i);
+                return (
+                  <li
+                    key={i}
+                    onClick={() => toggleItem(i)}
+                    className="flex items-center gap-3 group cursor-pointer rounded-xl px-3 py-2.5 -mx-3 hover:bg-cream-50 transition-colors duration-150"
+                    role="checkbox"
+                    aria-checked={checked}
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && toggleItem(i)}
+                  >
+                    <div className={`w-5 h-5 flex-shrink-0 rounded-md border-2 flex items-center justify-center transition-all duration-200 ${
+                      checked
+                        ? 'bg-sage-500 border-sage-500'
+                        : 'border-gray-300 group-hover:border-sage-400'
+                    }`}>
+                      {checked && <Check size={12} className="text-white" strokeWidth={3} />}
+                    </div>
+                    <span className={`leading-relaxed text-sm sm:text-base transition-all duration-200 ${
+                      checked
+                        ? 'line-through text-gray-400'
+                        : 'text-gray-700'
+                    }`}>
+                      {ing}
                     </span>
-                  </div>
-                  <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{ing}</span>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
