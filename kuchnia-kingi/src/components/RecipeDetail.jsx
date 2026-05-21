@@ -16,7 +16,11 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
     );
   }
 
-  const colors = CATEGORY_COLORS[recipe.category] || { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' };
+  const colors = CATEGORY_COLORS[recipe.category] || {
+    bg: 'bg-gray-100',
+    text: 'text-gray-700',
+    border: 'border-gray-200',
+  };
 
   const formattedDate = new Date(recipe.createdAt).toLocaleDateString('pl-PL', {
     year: 'numeric',
@@ -28,7 +32,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
       {/* Hero Image */}
       {recipe.image && (
-        <div className="rounded-3xl overflow-hidden aspect-[16/7] mb-8 shadow-md">
+        <div className="rounded-3xl overflow-hidden aspect-video mb-8 shadow-md" style={{ aspectRatio: '16/7' }}>
           <img
             src={recipe.image}
             alt={recipe.title}
@@ -121,7 +125,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
                 <ul className="space-y-2.5">
                   {recipe.ingredients.map((ing, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <div className="w-6 h-6 flex-shrink-0 bg-terracotta-500/10 rounded-full flex items-center justify-center mt-0.5">
+                      <div className="w-6 h-6 flex-shrink-0 bg-orange-100 rounded-full flex items-center justify-center mt-0.5">
                         <span className="text-terracotta-600 text-xs font-bold">{i + 1}</span>
                       </div>
                       <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{ing}</span>
@@ -152,7 +156,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
           {/* Paywall overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cream-200 p-8 sm:p-10 max-w-md w-full mx-4 text-center">
-              <div className="w-16 h-16 bg-terracotta-500/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-5">
                 <Lock size={28} className="text-terracotta-500" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-charcoal-800 mb-3">
@@ -187,7 +191,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
             <ul className="space-y-2.5">
               {recipe.ingredients.map((ing, i) => (
                 <li key={i} className="flex items-start gap-3 group">
-                  <div className="w-6 h-6 flex-shrink-0 bg-terracotta-500/10 group-hover:bg-terracotta-500 rounded-full flex items-center justify-center mt-0.5 transition-colors">
+                  <div className="w-6 h-6 flex-shrink-0 bg-orange-100 group-hover:bg-terracotta-500 rounded-full flex items-center justify-center mt-0.5 transition-colors">
                     <span className="text-terracotta-600 group-hover:text-white text-xs font-bold transition-colors">
                       {i + 1}
                     </span>
@@ -221,7 +225,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
 
       {/* E-book CTA at bottom */}
       <div className="mt-12 bg-gradient-to-br from-cream-50 to-cream-100 rounded-3xl p-8 text-center border border-cream-200">
-        <div className="w-14 h-14 bg-terracotta-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <BookOpen size={26} className="text-terracotta-500" />
         </div>
         <h3 className="font-serif text-xl font-semibold text-charcoal-800 mb-2">
@@ -246,7 +250,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack }) {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <Trash2 size={28} className="text-red-400" />
