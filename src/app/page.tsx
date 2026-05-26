@@ -1,65 +1,97 @@
-import Image from "next/image";
+import { Navbar } from '@/components/layout/Navbar'
+import { Footer } from '@/components/layout/Footer'
+import { HeroSection } from '@/components/zones/HeroSection'
+import { ZoneTiles } from '@/components/zones/ZoneTiles'
+import { HowItWorks } from '@/components/zones/HowItWorks'
+import { Shield, Award, Users } from 'lucide-react'
 
-export default function Home() {
+function TrustSection() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <section
+      id="dla-specjalistow"
+      className="bg-gradient-to-br from-slate-800 to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-teal-400 font-semibold text-sm uppercase tracking-wider mb-3">
+              Dla specjalistów
+            </p>
+            <h2 className="text-3xl font-bold mb-4">
+              Dołącz do sieci zweryfikowanych specjalistów
+            </h2>
+            <p className="text-slate-300 leading-relaxed mb-6">
+              Jesteś fizjoterapeutą, pielęgniarką, położną lub ratownikiem medycznym? Zarejestruj
+              się i zacznij otrzymywać zapytania od pacjentów w Twoim mieście.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Bezpłatna rejestracja profilu',
+                'Pacjenci sami do Ciebie trafiają',
+                'Kontrolujesz swój kalendarz i ceny',
+                'Odznaka weryfikacji PWZ buduje zaufanie',
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2.5 text-sm text-slate-300">
+                  <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              {
+                icon: Shield,
+                title: 'Weryfikacja PWZ',
+                desc: 'Każdy specjalista przechodzi weryfikację uprawnień zawodowych.',
+                color: 'text-teal-400',
+              },
+              {
+                icon: Award,
+                title: 'Certyfikaty i odznaki',
+                desc: 'Dodatkowe kwalifikacje widoczne na profilu budują zaufanie.',
+                color: 'text-amber-400',
+              },
+              {
+                icon: Users,
+                title: 'Model leadowy',
+                desc: 'Pacjent płaci za kontakt – Ty nie ponosisz kosztów rejestracji.',
+                color: 'text-blue-400',
+              },
+            ].map((item) => {
+              const ItemIcon = item.icon
+              return (
+                <div
+                  key={item.title}
+                  className="bg-white/5 rounded-xl p-5 border border-white/10 hover:bg-white/10 transition-colors"
+                >
+                  <ItemIcon className={`w-6 h-6 mb-3 ${item.color}`} />
+                  <h3 className="font-bold text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
+                </div>
+              )
+            })}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+      </div>
+    </section>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        <HeroSection />
+        <ZoneTiles />
+        <HowItWorks />
+        <TrustSection />
       </main>
+      <Footer />
     </div>
-  );
+  )
 }
