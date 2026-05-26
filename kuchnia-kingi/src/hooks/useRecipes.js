@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { mockRecipes } from '../data/mockRecipes';
 
@@ -68,11 +68,9 @@ export function useRecipes() {
     return loadFromLocalStorage();
   });
   const [loading, setLoading] = useState(isSupabaseConfigured());
-  const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!isSupabaseConfigured() || hasFetched.current) return;
-    hasFetched.current = true;
+    if (!isSupabaseConfigured()) return;
 
     let cancelled = false;
     fetchFromSupabase().then((data) => {
