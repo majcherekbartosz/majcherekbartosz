@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRecipes } from './hooks/useRecipes';
 import { useFavorites } from './hooks/useFavorites';
 import { useAnalytics } from './hooks/useAnalytics';
+import { useAuth } from './hooks/useAuth';
 import Dashboard from './components/Dashboard';
 import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
@@ -11,13 +12,16 @@ import AdminDashboard from './components/AdminDashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
+import LoginModal from './components/LoginModal';
 
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { stats, trackView, trackEbookClick } = useAnalytics();
+  const { isAdmin, signIn, signOut } = useAuth();
   const [view, setView] = useState('dashboard');
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   const navigate = (newView, recipeId = null) => {
     setView(newView);
@@ -55,7 +59,14 @@ export default function App() {
           else navigate('dashboard');
         }}
         currentView={view}
+        isAdmin={isAdmin}
+        onLogin={() => setShowLogin(true)}
+        onLogout={signOut}
       />
+
+      {showLogin && (
+        <LoginModal onLogin={signIn} onClose={() => setShowLogin(false)} />
+      )}
 
       <main className="min-h-screen">
         {view === 'dashboard' && (
@@ -78,6 +89,7 @@ export default function App() {
             onToggleFavorite={toggleFavorite}
             onTrackView={trackView}
             onTrackEbookClick={trackEbookClick}
+            isAdmin={isAdmin}
           />
         )}
 

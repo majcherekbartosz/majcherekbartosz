@@ -1,6 +1,6 @@
-import { ChefHat, Plus, ArrowLeft, User, Heart } from 'lucide-react';
+import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, showBack, onBack, currentView }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-cream-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,15 +60,36 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
               <User size={15} />
               <span className="hidden sm:inline">O mnie</span>
             </button>
-            <button
-              onClick={onAddRecipe}
-              className="flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 active:scale-95 text-white text-sm font-medium px-3 sm:px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
-              aria-label="Dodaj przepis"
-            >
-              <Plus size={16} />
-              <span className="hidden sm:inline">Nowy przepis</span>
-              <span className="sm:hidden">Dodaj</span>
-            </button>
+            {isAdmin ? (
+              <>
+                <button
+                  onClick={onAddRecipe}
+                  className="flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 active:scale-95 text-white text-sm font-medium px-3 sm:px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
+                  aria-label="Dodaj przepis"
+                >
+                  <Plus size={16} />
+                  <span className="hidden sm:inline">Nowy przepis</span>
+                  <span className="sm:hidden">Dodaj</span>
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="flex items-center gap-1.5 text-sm font-medium px-2.5 sm:px-3 py-2 rounded-full text-charcoal-600 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                  aria-label="Wyloguj"
+                >
+                  <LogOut size={15} />
+                  <span className="hidden sm:inline">Wyloguj</span>
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={onLogin}
+                className="flex items-center gap-1.5 text-sm font-medium px-2.5 sm:px-3 py-2 rounded-full text-charcoal-600 hover:text-terracotta-500 hover:bg-cream-50 transition-all duration-200"
+                aria-label="Zaloguj się"
+              >
+                <LogIn size={15} />
+                <span className="hidden sm:inline">Admin</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

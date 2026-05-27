@@ -5,7 +5,7 @@ import { useShoppingList } from '../hooks/useShoppingList';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
-export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick }) {
+export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick, isAdmin }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { toggleItem, isChecked, checkedCount } = useShoppingList(recipe?.id);
 
@@ -104,7 +104,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
             <BookOpen size={16} />
             Kup E-booka
           </a>
-          {!recipe.isPremium && (
+          {isAdmin && !recipe.isPremium && (
             <>
               <button
                 onClick={onEdit}
