@@ -35,7 +35,7 @@ export default function LoginModal({ onLogin, onClose }) {
         </button>
 
         <div className="text-center mb-6">
-          <div className="w-14 h-14 bg-terracotta-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 bg-cream-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <LogIn size={24} className="text-terracotta-500" />
           </div>
           <h2 className="font-serif text-2xl font-bold text-charcoal-800">Panel Admina</h2>
@@ -51,7 +51,7 @@ export default function LoginModal({ onLogin, onClose }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-terracotta-400 focus:ring-2 focus:ring-terracotta-100 outline-none transition-all text-sm"
+              className="w-full px-4 py-2.5 rounded-xl border border-cream-200 focus:border-terracotta-400 focus:ring-2 focus:ring-cream-100 outline-none transition-all text-sm"
               placeholder="admin@example.com"
             />
           </div>
@@ -63,7 +63,7 @@ export default function LoginModal({ onLogin, onClose }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-terracotta-400 focus:ring-2 focus:ring-terracotta-100 outline-none transition-all text-sm"
+              className="w-full px-4 py-2.5 rounded-xl border border-cream-200 focus:border-terracotta-400 focus:ring-2 focus:ring-cream-100 outline-none transition-all text-sm"
               placeholder="••••••••"
             />
           </div>
