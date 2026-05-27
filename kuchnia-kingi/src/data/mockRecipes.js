@@ -15,6 +15,7 @@ export const mockRecipes = [
     category: 'Śniadanie',
     prepTime: 20,
     servings: 4,
+    isPremium: false,
     description: 'Lekkie, puszyste pancakes o złotistym kolorze, podawane z sezonowymi owocami, syropem klonowym i odrobiną świeżej śmietany. Idealne na wolny, leniwy poranek.',
     image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1200&q=80',
     ingredients: [
@@ -48,6 +49,7 @@ export const mockRecipes = [
     category: 'Obiad',
     prepTime: 25,
     servings: 2,
+    isPremium: true,
     description: 'Jedwabisty, kremowy makaron z intensywnym smakiem suszonych pomidorów, czosnku i świeżego bazylii. Szybkie danie pełne śródziemnomorskich aromatów.',
     image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1200&q=80',
     ingredients: [
@@ -78,6 +80,7 @@ export const mockRecipes = [
     category: 'Deser',
     prepTime: 60,
     servings: 8,
+    isPremium: true,
     description: 'Dekadencka, ciemna tarta czekoladowa na maślanym spodzie z kruchego ciasta, wypełniona jedwabistym ganache i udekorowana świeżymi malinami i złotymi listkami.',
     image: 'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=1200&q=80',
     ingredients: [
