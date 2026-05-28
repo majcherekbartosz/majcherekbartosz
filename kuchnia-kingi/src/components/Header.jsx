@@ -1,12 +1,29 @@
-import { useState } from 'react';
-import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3, ChevronDown, Settings } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setAdminDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleNavClick = (action) => {
     action();
     setMobileMenuOpen(false);
+  };
+
+  const handleDropdownClick = (action) => {
+    action();
+    setAdminDropdownOpen(false);
   };
 
   return (
@@ -70,24 +87,48 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
               <span>O mnie</span>
             </button>
             {isAdmin ? (
-              <>
+              <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={onAddRecipe}
-                  className="flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 active:scale-95 text-white text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md min-h-[44px]"
-                  aria-label="Dodaj przepis"
+                  onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
+                  className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
+                    adminDropdownOpen || currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
+                  }`}
+                  aria-label="Menu admina"
                 >
-                  <Plus size={16} />
-                  <span>Nowy przepis</span>
+                  <Settings size={15} />
+                  <span>Admin</span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${adminDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-                <button
-                  onClick={onLogout}
-                  className="flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full text-charcoal-700 hover:text-red-500 hover:bg-red-50 transition-all duration-200 min-h-[44px]"
-                  aria-label="Wyloguj"
-                >
-                  <LogOut size={15} />
-                  <span>Wyloguj</span>
-                </button>
-              </>
+
+                {adminDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl border border-cream-200 shadow-lg py-2 z-50">
+                    <button
+                      onClick={() => handleDropdownClick(onAddRecipe)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
+                    >
+                      <Plus size={16} />
+                      Nowy przepis
+                    </button>
+                    <button
+                      onClick={() => handleDropdownClick(onAnalytics)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
+                    >
+                      <BarChart3 size={16} />
+                      Analityka
+                    </button>
+                    <div className="border-t border-cream-200 my-1" />
+                    <button
+                      onClick={() => handleDropdownClick(onLogout)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors min-h-[44px]"
+                    >
+                      <LogOut size={16} />
+                      Wyloguj
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <button
                 onClick={onLogin}
@@ -137,12 +178,25 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             </button>
             {isAdmin ? (
               <>
+                <div className="border-t border-cream-200 my-2" />
+                <p className="px-3 py-1 text-xs text-terracotta-400 uppercase tracking-wide font-medium">Panel Admina</p>
                 <button
                   onClick={() => handleNavClick(onAddRecipe)}
                   className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl bg-terracotta-500 text-white min-h-[44px]"
                 >
                   <Plus size={18} />
                   Nowy przepis
+                </button>
+                <button
+                  onClick={() => handleNavClick(onAnalytics)}
+                  className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl min-h-[44px] ${
+                    currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:bg-cream-50'
+                  }`}
+                >
+                  <BarChart3 size={18} />
+                  Analityka
                 </button>
                 <button
                   onClick={() => handleNavClick(onLogout)}

@@ -52,6 +52,7 @@ export default function App() {
         onAddRecipe={() => navigate('add')}
         onAbout={() => navigate('about')}
         onFavorites={() => navigate('favorites')}
+        onAnalytics={() => navigate('admin')}
         showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'admin'}
         onBack={() => {
           if (view === 'detail') navigate('dashboard');
@@ -116,11 +117,11 @@ export default function App() {
           />
         )}
 
-        {view === 'admin' && (
+        {view === 'admin' && isAdmin && (
           <AdminDashboard recipes={recipes} stats={stats} />
         )}
       </main>
-      <Footer onAdminClick={() => navigate('admin')} />
+      <Footer />
     </div>
     </ErrorBoundary>
   );
