@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3 } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (action) => {
@@ -80,6 +80,18 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
                   <span>Nowy przepis</span>
                 </button>
                 <button
+                  onClick={onAnalytics}
+                  className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
+                    currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
+                  }`}
+                  aria-label="Analityka"
+                >
+                  <BarChart3 size={15} />
+                  <span>Analityka</span>
+                </button>
+                <button
                   onClick={onLogout}
                   className="flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full text-charcoal-700 hover:text-red-500 hover:bg-red-50 transition-all duration-200 min-h-[44px]"
                   aria-label="Wyloguj"
@@ -143,6 +155,17 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
                 >
                   <Plus size={18} />
                   Nowy przepis
+                </button>
+                <button
+                  onClick={() => handleNavClick(onAnalytics)}
+                  className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl min-h-[44px] ${
+                    currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:bg-cream-50'
+                  }`}
+                >
+                  <BarChart3 size={18} />
+                  Analityka
                 </button>
                 <button
                   onClick={() => handleNavClick(onLogout)}
