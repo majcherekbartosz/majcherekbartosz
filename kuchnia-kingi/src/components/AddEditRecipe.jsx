@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Plus, X, GripVertical, Camera, Upload, ChefHat } from 'lucide-react';
+import { Plus, X, GripVertical, Camera, Upload, ChefHat, Globe, Lock } from 'lucide-react';
 import { CATEGORIES } from '../data/mockRecipes';
 
 const DEFAULT_FORM = {
@@ -8,6 +8,7 @@ const DEFAULT_FORM = {
   prepTime: '',
   servings: '',
   description: '',
+  isPremium: false,
   image: '',
   ingredients: [''],
   steps: [''],
@@ -194,6 +195,71 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
             className={`input-field resize-none ${errors.description ? 'border-red-400 ring-2 ring-red-100' : ''}`}
           />
           {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+        </div>
+
+        {/* Premium Toggle */}
+        <div>
+          <label className="block text-sm font-medium text-charcoal-700 mb-2">
+            Dostępność przepisu
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => set('isPremium', false)}
+              className={`relative flex items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-200 text-left ${
+                !form.isPremium
+                  ? 'border-sage-500 bg-sage-500/5 shadow-sm'
+                  : 'border-gray-200 bg-white hover:border-gray-300'
+              }`}
+            >
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
+                !form.isPremium ? 'bg-sage-500 text-white' : 'bg-gray-100 text-gray-400'
+              }`}>
+                <Globe size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm font-semibold ${!form.isPremium ? 'text-sage-700' : 'text-charcoal-700'}`}>
+                  Przepis darmowy
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5">Ogólnodostępny dla wszystkich</p>
+              </div>
+              {!form.isPremium && (
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-sage-500 rounded-full flex items-center justify-center">
+                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => set('isPremium', true)}
+              className={`relative flex items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-200 text-left ${
+                form.isPremium
+                  ? 'border-terracotta-500 bg-terracotta-500/5 shadow-sm'
+                  : 'border-gray-200 bg-white hover:border-gray-300'
+              }`}
+            >
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
+                form.isPremium ? 'bg-terracotta-500 text-white' : 'bg-gray-100 text-gray-400'
+              }`}>
+                <Lock size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm font-semibold ${form.isPremium ? 'text-terracotta-700' : 'text-charcoal-700'}`}>
+                  Przepis Premium
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5">Dostępny po zakupie E-booka</p>
+              </div>
+              {form.isPremium && (
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-terracotta-500 rounded-full flex items-center justify-center">
+                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Image Upload */}
