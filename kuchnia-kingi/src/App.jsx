@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useRecipes } from './hooks/useRecipes';
 import { useFavorites } from './hooks/useFavorites';
+import { useRatings } from './hooks/useRatings';
+import { useGlobalShoppingList } from './hooks/useGlobalShoppingList';
 import { useAnalytics } from './hooks/useAnalytics';
 import { useAuth } from './hooks/useAuth';
 import Dashboard from './components/Dashboard';
@@ -8,7 +10,9 @@ import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
 import AboutMe from './components/AboutMe';
 import FavoritesCollection from './components/FavoritesCollection';
+import ShoppingListView from './components/ShoppingListView';
 import AdminDashboard from './components/AdminDashboard';
+import { buildRecipeShoppingItems } from './utils/buildShoppingList';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -17,6 +21,17 @@ import LoginModal from './components/LoginModal';
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { setRating, clearRating, getRating } = useRatings();
+  const {
+    items: shoppingItems,
+    uncheckedCount,
+    addFromRecipe,
+    toggleItem: toggleShoppingItem,
+    removeItem: removeShoppingItem,
+    removeRecipeItems,
+    clearChecked,
+    clearAll: clearShoppingList,
+  } = useGlobalShoppingList();
   const { stats, trackView, trackEbookClick } = useAnalytics();
   const { isAdmin, signIn, signOut } = useAuth();
   const [view, setView] = useState('dashboard');
@@ -44,6 +59,16 @@ export default function App() {
     navigate('dashboard');
   };
 
+  const handleRate = (recipeId, stars) => {
+    if (stars === 0) clearRating(recipeId);
+    else setRating(recipeId, stars);
+  };
+
+  const handleAddToShoppingList = (recipe, items) => {
+    const list = items ?? buildRecipeShoppingItems(recipe);
+    return addFromRecipe(recipe, list);
+  };
+
   return (
     <ErrorBoundary>
     <div className="min-h-screen bg-cream-50" style={{ backgroundColor: '#FFF0F3' }}>
@@ -52,8 +77,10 @@ export default function App() {
         onAddRecipe={() => navigate('add')}
         onAbout={() => navigate('about')}
         onFavorites={() => navigate('favorites')}
+        onShoppingList={() => navigate('shopping')}
         onAnalytics={() => navigate('admin')}
-        showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'admin'}
+        shoppingListCount={uncheckedCount}
+        showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'shopping' && view !== 'admin'}
         onBack={() => {
           if (view === 'detail') navigate('dashboard');
           else if (view === 'edit') navigate('detail', selectedRecipeId);
@@ -77,6 +104,7 @@ export default function App() {
             onAddRecipe={() => navigate('add')}
             isFavorite={isFavorite}
             onToggleFavorite={toggleFavorite}
+            getRating={getRating}
           />
         )}
 
@@ -91,6 +119,10 @@ export default function App() {
             onTrackView={trackView}
             onTrackEbookClick={trackEbookClick}
             isAdmin={isAdmin}
+            rating={getRating(selectedRecipeId)}
+            onRate={handleRate}
+            onAddToShoppingList={handleAddToShoppingList}
+            onGoToShoppingList={() => navigate('shopping')}
           />
         )}
 
@@ -114,6 +146,19 @@ export default function App() {
             onRecipeClick={(id) => navigate('detail', id)}
             isFavorite={isFavorite}
             onToggleFavorite={toggleFavorite}
+            getRating={getRating}
+          />
+        )}
+
+        {view === 'shopping' && (
+          <ShoppingListView
+            items={shoppingItems}
+            onToggle={toggleShoppingItem}
+            onRemove={removeShoppingItem}
+            onRemoveRecipeGroup={removeRecipeItems}
+            onClearChecked={clearChecked}
+            onClearAll={clearShoppingList}
+            onOpenRecipe={(id) => navigate('detail', id)}
           />
         )}
 

@@ -1,20 +1,67 @@
 import { useState, useEffect } from 'react';
-import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check, Minus, Plus } from 'lucide-react';
+import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check, Minus, Plus, Copy, ListPlus } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 import { useShoppingList } from '../hooks/useShoppingList';
 import { scaleIngredient } from '../utils/scaleIngredient';
+import { buildRecipeShoppingItems, formatShoppingListText } from '../utils/buildShoppingList';
 import { useComments } from '../hooks/useComments';
 import Comments from './Comments';
+import StarRating from './StarRating';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
-export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick, isAdmin }) {
+export default function RecipeDetail({
+  recipe,
+  onEdit,
+  onDelete,
+  onBack,
+  isFavorite,
+  onToggleFavorite,
+  onTrackView,
+  onTrackEbookClick,
+  isAdmin,
+  rating = 0,
+  onRate,
+  onAddToShoppingList,
+  onGoToShoppingList,
+}) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [servings, setServings] = useState(recipe?.servings || 4);
+  const [listFeedback, setListFeedback] = useState(null);
   const { toggleItem, isChecked, checkedCount } = useShoppingList(recipe?.id);
   const { comments, loading: commentsLoading, addComment, deleteComment } = useComments(recipe?.id);
 
   const multiplier = recipe ? servings / recipe.servings : 1;
+  const shoppingItems = recipe ? buildRecipeShoppingItems(recipe, servings) : [];
+
+  useEffect(() => {
+    if (!listFeedback) return undefined;
+    const timer = setTimeout(() => setListFeedback(null), 3000);
+    return () => clearTimeout(timer);
+  }, [listFeedback]);
+
+  const handleCopyShoppingList = async () => {
+    if (!recipe) return;
+    const text = formatShoppingListText(recipe.title, shoppingItems);
+    try {
+      await navigator.clipboard.writeText(text);
+      setListFeedback('Skopiowano listę do schowka');
+    } catch {
+      setListFeedback('Nie udało się skopiować listy');
+    }
+  };
+
+  const handleAddToGlobalList = () => {
+    if (!recipe || !onAddToShoppingList) return;
+    const added = onAddToShoppingList(recipe, shoppingItems);
+    if (added > 0) {
+      setListFeedback(
+        `Dodano ${added} ${added === 1 ? 'składnik' : added < 5 ? 'składniki' : 'składników'} do listy zakupów`
+      );
+    } else {
+      setListFeedback('Te składniki są już na liście zakupów');
+    }
+  };
 
   useEffect(() => {
     if (recipe && onTrackView) {
@@ -87,6 +134,16 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
               />
             </button>
           </div>
+          {!recipe.isPremium && onRate && (
+            <div className="mb-4">
+              <StarRating value={rating} onChange={(stars) => onRate(recipe.id, stars)} />
+            </div>
+          )}
+          {recipe.isPremium && rating > 0 && (
+            <div className="mb-4">
+              <StarRating value={rating} readOnly />
+            </div>
+          )}
           <div className="flex items-center gap-6 text-sm text-gray-500">
             <span className="flex items-center gap-2">
               <Clock size={15} className="text-terracotta-400" />
@@ -242,22 +299,62 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Interactive Shopping List */}
           <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-5 pb-3 border-b-2 border-cream-200">
-              <h2 className="font-serif text-2xl font-semibold text-charcoal-800">
-                Składniki
-              </h2>
-              <div className="flex items-center gap-2">
-                {multiplier !== 1 && (
-                  <span className="text-[10px] text-terracotta-500 font-medium bg-orange-50 px-2 py-0.5 rounded-full">
-                    ×{multiplier % 1 === 0 ? multiplier : multiplier.toFixed(1)}
-                  </span>
+            <div className="mb-5 pb-3 border-b-2 border-cream-200">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <h2 className="font-serif text-2xl font-semibold text-charcoal-800">
+                  Lista zakupów
+                </h2>
+                <div className="flex items-center gap-2">
+                  {multiplier !== 1 && (
+                    <span className="text-[10px] text-terracotta-500 font-medium bg-orange-50 px-2 py-0.5 rounded-full">
+                      ×{multiplier % 1 === 0 ? multiplier : multiplier.toFixed(1)}
+                    </span>
+                  )}
+                  {checkedCount > 0 && (
+                    <span className="text-xs text-sage-600 font-medium bg-green-50 px-2.5 py-1 rounded-full">
+                      {checkedCount}/{recipe.ingredients.length}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <p className="text-xs text-gray-400 mt-1 mb-3">
+                Składniki dla {servings} {servings === 1 ? 'porcji' : servings < 5 ? 'porcji' : 'porcji'} — zaznacz w sklepie lub dodaj do zbiorczej listy
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={handleCopyShoppingList}
+                  className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-white border border-cream-200 text-charcoal-700 hover:border-sage-300 hover:text-sage-700 transition-colors"
+                >
+                  <Copy size={13} />
+                  Kopiuj listę
+                </button>
+                {onAddToShoppingList && (
+                  <button
+                    type="button"
+                    onClick={handleAddToGlobalList}
+                    className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-sage-500 text-white hover:bg-sage-600 transition-colors shadow-sm"
+                  >
+                    <ListPlus size={13} />
+                    Dodaj do listy zakupów
+                  </button>
                 )}
-                {checkedCount > 0 && (
-                  <span className="text-xs text-sage-600 font-medium bg-green-50 px-2.5 py-1 rounded-full">
-                    {checkedCount}/{recipe.ingredients.length}
-                  </span>
+                {onGoToShoppingList && (
+                  <button
+                    type="button"
+                    onClick={onGoToShoppingList}
+                    className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full text-sage-700 hover:bg-sage-50 transition-colors"
+                  >
+                    <ShoppingCart size={13} />
+                    Otwórz listę
+                  </button>
                 )}
               </div>
+              {listFeedback && (
+                <p className="text-xs text-sage-600 mt-2 font-medium" role="status">
+                  {listFeedback}
+                </p>
+              )}
             </div>
             <ul className="space-y-1.5">
               {recipe.ingredients.map((ing, i) => {

@@ -1,7 +1,7 @@
 import { Heart } from 'lucide-react';
 import RecipeCard from './RecipeCard';
 
-export default function FavoritesCollection({ recipes, favorites, onRecipeClick, isFavorite, onToggleFavorite }) {
+export default function FavoritesCollection({ recipes, favorites, onRecipeClick, isFavorite, onToggleFavorite, getRating }) {
   const favoriteRecipes = recipes.filter((r) => favorites.includes(r.id));
 
   return (
@@ -31,6 +31,7 @@ export default function FavoritesCollection({ recipes, favorites, onRecipeClick,
               onClick={() => onRecipeClick(recipe.id)}
               isFavorite={isFavorite(recipe.id)}
               onToggleFavorite={onToggleFavorite}
+              rating={getRating ? getRating(recipe.id) : 0}
             />
           ))}
         </div>
