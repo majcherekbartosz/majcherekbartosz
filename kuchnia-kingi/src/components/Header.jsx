@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3, ChevronDown, Settings } from 'lucide-react';
+import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3, ChevronDown, Settings, ShoppingCart } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout, shoppingListCount = 0 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -73,6 +73,23 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             >
               <Heart size={15} />
               <span>Moja Kolekcja</span>
+            </button>
+            <button
+              onClick={onShoppingList}
+              className={`relative flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
+                currentView === 'shopping'
+                  ? 'bg-sage-100 text-sage-700'
+                  : 'text-charcoal-700 hover:text-sage-600 hover:bg-sage-50'
+              }`}
+              aria-label="Lista zakupów"
+            >
+              <ShoppingCart size={15} />
+              <span>Lista zakupów</span>
+              {shoppingListCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-sage-500 text-white text-[10px] font-bold tabular-nums">
+                  {shoppingListCount > 99 ? '99+' : shoppingListCount}
+                </span>
+              )}
             </button>
             <button
               onClick={onAbout}
@@ -164,6 +181,22 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             >
               <Heart size={18} />
               Moja Kolekcja
+            </button>
+            <button
+              onClick={() => handleNavClick(onShoppingList)}
+              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
+                currentView === 'shopping'
+                  ? 'bg-sage-100 text-sage-700'
+                  : 'text-charcoal-700 hover:bg-cream-50'
+              }`}
+            >
+              <ShoppingCart size={18} />
+              <span className="flex-1">Lista zakupów</span>
+              {shoppingListCount > 0 && (
+                <span className="min-w-[22px] h-[22px] px-1.5 flex items-center justify-center rounded-full bg-sage-500 text-white text-xs font-bold">
+                  {shoppingListCount > 99 ? '99+' : shoppingListCount}
+                </span>
+              )}
             </button>
             <button
               onClick={() => handleNavClick(onAbout)}

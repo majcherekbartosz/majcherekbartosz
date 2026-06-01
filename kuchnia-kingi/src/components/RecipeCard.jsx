@@ -1,7 +1,8 @@
 import { Clock, Users, ChevronRight, Lock, Heart } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
+import StarRating from './StarRating';
 
-export default function RecipeCard({ recipe, onClick, isFavorite, onToggleFavorite }) {
+export default function RecipeCard({ recipe, onClick, isFavorite, onToggleFavorite, rating = 0 }) {
   const colors = CATEGORY_COLORS[recipe.category] || {
     bg: 'bg-gray-100',
     text: 'text-gray-700',
@@ -61,9 +62,15 @@ export default function RecipeCard({ recipe, onClick, isFavorite, onToggleFavori
         <h3 className="font-serif text-lg font-semibold text-charcoal-800 leading-snug mb-2 group-hover:text-terracotta-500 transition-colors line-clamp-2">
           {recipe.title}
         </h3>
-        <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-4">
+        <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3">
           {recipe.description}
         </p>
+
+        {rating > 0 && (
+          <div className="mb-3" onClick={(e) => e.stopPropagation()}>
+            <StarRating value={rating} readOnly size={14} showLabel={false} />
+          </div>
+        )}
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 text-xs text-gray-500">
