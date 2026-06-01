@@ -31,7 +31,34 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-cream-200;
+    @apply bg-white rounded-2xl shadow-sm overflow-hidden border border-cream-200;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Hover lift — tylko mysz / trackpad (nie dotyk) */
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 14px 28px -8px rgba(74, 16, 40, 0.16),
+        0 10px 16px -12px rgba(74, 16, 40, 0.12);
+    }
+
+    .recipe-card:hover .recipe-card__image {
+      @apply scale-105;
+    }
+
+    .recipe-card:hover .recipe-card__overlay {
+      @apply opacity-100;
+    }
+
+    .recipe-card:hover .recipe-card__title {
+      @apply text-terracotta-500;
+    }
+
+    .recipe-card:hover .recipe-card__chevron {
+      @apply text-terracotta-400 translate-x-1;
+    }
   }
 
   .tag-pill {
