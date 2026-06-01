@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Kuchnia Kingi">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF99B4"/>
+      <stop offset="100%" stop-color="#FF6B8A"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="220" r="56" fill="#FFF0F3"/>
+  <path fill="#4A1028" d="M208 220c0-27 21-48 48-48s48 21 48 48v6h12c15 0 28 13 28 28v8c0 7-6 13-13 13H193c-7 0-13-6-13-13v-8c0-15 13-28 28-28h12v-6z"/>
+  <ellipse cx="256" cy="340" rx="108" ry="76" fill="#FFF0F3"/>
+  <ellipse cx="256" cy="328" rx="52" ry="20" fill="#4A1028" opacity="0.25"/>
+</svg>
