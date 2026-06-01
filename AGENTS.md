@@ -4,14 +4,18 @@
 
 ### Project overview
 
-**Kuchnia Kingi** (Kinga's Kitchen) is a client-side React SPA for managing recipes. All application code lives in the `kuchnia-kingi/` subdirectory. There is no backend, database, or external API; data persists in browser `localStorage`.
+**Kuchnia Kingi** (Kinga's Kitchen) is a client-side React SPA for managing recipes. All application code lives in the `kuchnia-kingi/` subdirectory. By default there is no backend: data persists in browser `localStorage`. Optionally, set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (see `kuchnia-kingi/.env.example`) to sync recipes, admin auth, and comments via hosted Supabase.
 
 ### Running the app
+
+Node **≥20.19** is required (`kuchnia-kingi/package.json` `engines`; `.nvmrc` pins 20).
 
 ```bash
 cd kuchnia-kingi
 npm run dev -- --host 0.0.0.0   # Vite dev server on http://localhost:5173
 ```
+
+For long-running dev in Cloud Agent VMs, start Vite in a tmux session (e.g. `vite-dev-server`) so the process survives after the setup shell exits.
 
 ### Available scripts (from `kuchnia-kingi/package.json`)
 
@@ -26,7 +30,7 @@ npm run dev -- --host 0.0.0.0   # Vite dev server on http://localhost:5173
 
 - React 19, Vite 8, Tailwind CSS 3.4, ESLint 10
 - No test framework configured — validation is manual/visual
-- No Docker, no CI/CD, no backend services needed
+- No Docker, no CI/CD; only the Vite dev server must run locally for UI work (Supabase is external and optional)
 - Package manager: npm (uses `package-lock.json`)
 
 ### Branch notes
