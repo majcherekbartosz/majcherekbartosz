@@ -23,6 +23,22 @@ npm run dev
 
 Otwórz przeglądarkę i przejdź na adres: **http://localhost:5173**
 
+### PWA (Progressive Web App)
+
+Aplikacja może być zainstalowana na telefonie lub komputerze jako PWA.
+
+- Manifest: `public/manifest.json`
+- Service Worker: generowany przy `npm run build` (Workbox przez `vite-plugin-pwa`)
+- Rejestracja SW: `src/main.jsx` (tylko w produkcji)
+- Ikony PNG: `npm run generate:pwa-icons` (wymaga `sharp`)
+
+Aby przetestować offline i instalację, zbuduj i uruchom podgląd produkcyjny:
+
+```bash
+npm run build
+npm run preview
+```
+
 ### Budowanie wersji produkcyjnej
 
 ```bash
