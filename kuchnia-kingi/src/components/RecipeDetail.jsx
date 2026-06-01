@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check } from 'lucide-react';
+import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check, Minus, Plus } from 'lucide-react';
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 import { useShoppingList } from '../hooks/useShoppingList';
+import { scaleIngredient } from '../utils/scaleIngredient';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
 export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [servings, setServings] = useState(recipe?.servings || 4);
   const { toggleItem, isChecked, checkedCount } = useShoppingList(recipe?.id);
+
+  const multiplier = recipe ? servings / recipe.servings : 1;
 
   useEffect(() => {
     if (recipe && onTrackView) {
@@ -85,10 +89,37 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
               <Clock size={15} className="text-terracotta-400" />
               {recipe.prepTime} minut
             </span>
-            <span className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Users size={15} className="text-terracotta-400" />
-              {recipe.servings} porcji
-            </span>
+              <div className="flex items-center gap-1.5 bg-cream-50 border border-cream-200 rounded-full px-1 py-0.5">
+                <button
+                  onClick={() => setServings((s) => Math.max(1, s - 1))}
+                  className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-cream-200 text-charcoal-600 transition-colors active:scale-90"
+                  aria-label="Mniej porcji"
+                >
+                  <Minus size={12} />
+                </button>
+                <span className="min-w-[2ch] text-center font-semibold text-charcoal-800 text-sm tabular-nums">
+                  {servings}
+                </span>
+                <button
+                  onClick={() => setServings((s) => Math.min(20, s + 1))}
+                  className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-cream-200 text-charcoal-600 transition-colors active:scale-90"
+                  aria-label="Więcej porcji"
+                >
+                  <Plus size={12} />
+                </button>
+              </div>
+              <span className="text-gray-500">porcji</span>
+              {multiplier !== 1 && (
+                <button
+                  onClick={() => setServings(recipe.servings)}
+                  className="text-[10px] text-terracotta-500 hover:text-terracotta-600 font-medium ml-1"
+                >
+                  (reset)
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -212,15 +243,23 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
               <h2 className="font-serif text-2xl font-semibold text-charcoal-800">
                 Składniki
               </h2>
-              {checkedCount > 0 && (
-                <span className="text-xs text-sage-600 font-medium bg-green-50 px-2.5 py-1 rounded-full">
-                  {checkedCount}/{recipe.ingredients.length}
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {multiplier !== 1 && (
+                  <span className="text-[10px] text-terracotta-500 font-medium bg-orange-50 px-2 py-0.5 rounded-full">
+                    ×{multiplier % 1 === 0 ? multiplier : multiplier.toFixed(1)}
+                  </span>
+                )}
+                {checkedCount > 0 && (
+                  <span className="text-xs text-sage-600 font-medium bg-green-50 px-2.5 py-1 rounded-full">
+                    {checkedCount}/{recipe.ingredients.length}
+                  </span>
+                )}
+              </div>
             </div>
             <ul className="space-y-1.5">
               {recipe.ingredients.map((ing, i) => {
                 const checked = isChecked(i);
+                const scaled = scaleIngredient(ing, multiplier);
                 return (
                   <li
                     key={i}
@@ -243,7 +282,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
                         ? 'line-through text-gray-400'
                         : 'text-gray-700'
                     }`}>
-                      {ing}
+                      {scaled}
                     </span>
                   </li>
                 );
