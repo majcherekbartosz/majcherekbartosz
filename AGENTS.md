@@ -4,7 +4,7 @@
 
 ### Project overview
 
-**Kuchnia Kingi** (Kinga's Kitchen) is a client-side React SPA for managing recipes. All application code lives in the `kuchnia-kingi/` subdirectory. There is no backend, database, or external API; data persists in browser `localStorage`.
+**Kuchnia Kingi** (Kinga's Kitchen) is a client-side React SPA for managing recipes. All application code lives in the `kuchnia-kingi/` subdirectory. There is no local backend; recipes, favorites, shopping lists, and analytics persist in browser `localStorage`. Optional **Supabase** (hosted) enables admin login, cloud recipe sync, and comments — copy `kuchnia-kingi/.env.example` to `.env` and set `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` only when testing those features.
 
 ### Running the app
 
@@ -31,10 +31,12 @@ npm run dev -- --host 0.0.0.0   # Vite dev server on http://localhost:5173
 
 ### Branch notes
 
-- The `main` branch contains only a bare `README.md`. All application code is on feature branches.
-- When working on this project, ensure you are on an application branch or a branch created from one.
+- The full app under `kuchnia-kingi/` is on `main` (merged from feature branches). Older remote `cursor/*` branches may still exist but are not required to run the app.
 
 ### Caveats
 
-- `npm run lint` currently passes cleanly. Previous versions had pre-existing errors in `RecipeDetail.jsx` that have since been resolved.
+- Node.js **≥ 20.19.0** (see `kuchnia-kingi/package.json` `engines` and `.nvmrc`).
+- `npm run lint` currently passes cleanly.
 - The app uses `localStorage` key `kuchnia-kingi-recipes` for recipe persistence. Clearing browser storage resets all data to mock defaults.
+- **Adding/editing recipes** (`Nowy przepis`) is in the Admin dropdown and requires a signed-in Supabase admin user. Without Supabase env vars, use browse/search, recipe detail, favorites, and shopping-list flows for manual E2E.
+- `npm run preview` serves the production build on port **4173** by default (after `npm run build`).
