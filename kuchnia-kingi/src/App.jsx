@@ -17,6 +17,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoginModal from './components/LoginModal';
+import PwaInstallBanner from './components/PwaInstallBanner';
 
 export default function App() {
   const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
@@ -167,6 +168,7 @@ export default function App() {
         )}
       </main>
       <Footer />
+      <PwaInstallBanner />
     </div>
     </ErrorBoundary>
   );
