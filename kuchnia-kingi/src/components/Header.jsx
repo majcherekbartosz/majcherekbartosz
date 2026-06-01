@@ -1,6 +1,31 @@
-import { ChefHat, Plus, ArrowLeft, User, Heart } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3, ChevronDown, Settings } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, showBack, onBack, currentView }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setAdminDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNavClick = (action) => {
+    action();
+    setMobileMenuOpen(false);
+  };
+
+  const handleDropdownClick = (action) => {
+    action();
+    setAdminDropdownOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-cream-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,7 +34,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             {showBack && (
               <button
                 onClick={onBack}
-                className="flex items-center gap-1.5 text-charcoal-700 hover:text-terracotta-500 transition-colors mr-2"
+                className="flex items-center gap-1.5 text-charcoal-700 hover:text-terracotta-500 transition-colors mr-2 min-w-[44px] min-h-[44px] justify-center"
                 aria-label="Wróć"
               >
                 <ArrowLeft size={20} />
@@ -28,49 +53,170 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
                 <span className="font-serif text-xl font-bold text-charcoal-800 tracking-tight">
                   Kuchnia Kingi
                 </span>
-                <span className="block text-xs text-gray-400 font-sans leading-none -mt-0.5 hidden sm:block">
+                <span className="block text-xs text-pink-400 font-sans leading-none -mt-0.5 hidden sm:block">
                   pamiętnik kulinarny
                 </span>
               </div>
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1.5 sm:gap-2.5">
             <button
               onClick={onFavorites}
-              className={`flex items-center gap-1.5 text-sm font-medium px-2.5 sm:px-3 py-2 rounded-full transition-all duration-200 ${
+              className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
                 currentView === 'favorites'
                   ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-600 hover:text-terracotta-500 hover:bg-cream-50'
+                  : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
               }`}
               aria-label="Moja Kolekcja"
             >
               <Heart size={15} />
-              <span className="hidden sm:inline">Moja Kolekcja</span>
+              <span>Moja Kolekcja</span>
             </button>
             <button
               onClick={onAbout}
-              className={`flex items-center gap-1.5 text-sm font-medium px-2.5 sm:px-3 py-2 rounded-full transition-all duration-200 ${
+              className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
                 currentView === 'about'
                   ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-600 hover:text-terracotta-500 hover:bg-cream-50'
+                  : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
               }`}
               aria-label="O mnie"
             >
               <User size={15} />
-              <span className="hidden sm:inline">O mnie</span>
+              <span>O mnie</span>
+            </button>
+            {isAdmin ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
+                  className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
+                    adminDropdownOpen || currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
+                  }`}
+                  aria-label="Menu admina"
+                >
+                  <Settings size={15} />
+                  <span>Admin</span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${adminDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {adminDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl border border-cream-200 shadow-lg py-2 z-50">
+                    <button
+                      onClick={() => handleDropdownClick(onAddRecipe)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
+                    >
+                      <Plus size={16} />
+                      Nowy przepis
+                    </button>
+                    <button
+                      onClick={() => handleDropdownClick(onAnalytics)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
+                    >
+                      <BarChart3 size={16} />
+                      Analityka
+                    </button>
+                    <div className="border-t border-cream-200 my-1" />
+                    <button
+                      onClick={() => handleDropdownClick(onLogout)}
+                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors min-h-[44px]"
+                    >
+                      <LogOut size={16} />
+                      Wyloguj
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={onLogin}
+                className="flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50 transition-all duration-200 min-h-[44px]"
+                aria-label="Zaloguj się"
+              >
+                <LogIn size={15} />
+                <span>Admin</span>
+              </button>
+            )}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex items-center justify-center w-11 h-11 rounded-full text-charcoal-700 hover:bg-cream-100 transition-colors"
+            aria-label={mobileMenuOpen ? 'Zamknij menu' : 'Otwórz menu'}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+
+        {/* Mobile menu dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-cream-200 py-3 pb-4 space-y-1">
+            <button
+              onClick={() => handleNavClick(onFavorites)}
+              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
+                currentView === 'favorites'
+                  ? 'bg-cream-100 text-terracotta-600'
+                  : 'text-charcoal-700 hover:bg-cream-50'
+              }`}
+            >
+              <Heart size={18} />
+              Moja Kolekcja
             </button>
             <button
-              onClick={onAddRecipe}
-              className="flex items-center gap-2 bg-terracotta-500 hover:bg-terracotta-600 active:scale-95 text-white text-sm font-medium px-3 sm:px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
-              aria-label="Dodaj przepis"
+              onClick={() => handleNavClick(onAbout)}
+              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
+                currentView === 'about'
+                  ? 'bg-cream-100 text-terracotta-600'
+                  : 'text-charcoal-700 hover:bg-cream-50'
+              }`}
             >
-              <Plus size={16} />
-              <span className="hidden sm:inline">Nowy przepis</span>
-              <span className="sm:hidden">Dodaj</span>
+              <User size={18} />
+              O mnie
             </button>
+            {isAdmin ? (
+              <>
+                <div className="border-t border-cream-200 my-2" />
+                <p className="px-3 py-1 text-xs text-terracotta-400 uppercase tracking-wide font-medium">Panel Admina</p>
+                <button
+                  onClick={() => handleNavClick(onAddRecipe)}
+                  className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl bg-terracotta-500 text-white min-h-[44px]"
+                >
+                  <Plus size={18} />
+                  Nowy przepis
+                </button>
+                <button
+                  onClick={() => handleNavClick(onAnalytics)}
+                  className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl min-h-[44px] ${
+                    currentView === 'admin'
+                      ? 'bg-cream-100 text-terracotta-600'
+                      : 'text-charcoal-700 hover:bg-cream-50'
+                  }`}
+                >
+                  <BarChart3 size={18} />
+                  Analityka
+                </button>
+                <button
+                  onClick={() => handleNavClick(onLogout)}
+                  className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl text-red-500 hover:bg-red-50 min-h-[44px]"
+                >
+                  <LogOut size={18} />
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => handleNavClick(onLogin)}
+                className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl text-charcoal-700 hover:bg-cream-50 min-h-[44px]"
+              >
+                <LogIn size={18} />
+                Panel Admina
+              </button>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

@@ -3,13 +3,16 @@ import { Clock, Users, Edit3, Trash2, Lock, BookOpen, ShoppingCart, Heart, Check
 import { CATEGORY_COLORS } from '../data/mockRecipes';
 import { useShoppingList } from '../hooks/useShoppingList';
 import { scaleIngredient } from '../utils/scaleIngredient';
+import { useComments } from '../hooks/useComments';
+import Comments from './Comments';
 
 const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 
-export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick }) {
+export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavorite, onToggleFavorite, onTrackView, onTrackEbookClick, isAdmin }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [servings, setServings] = useState(recipe?.servings || 4);
   const { toggleItem, isChecked, checkedCount } = useShoppingList(recipe?.id);
+  const { comments, loading: commentsLoading, addComment, deleteComment } = useComments(recipe?.id);
 
   const multiplier = recipe ? servings / recipe.servings : 1;
 
@@ -135,7 +138,7 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
             <BookOpen size={16} />
             Kup E-booka
           </a>
-          {!recipe.isPremium && (
+          {isAdmin && !recipe.isPremium && (
             <>
               <button
                 onClick={onEdit}
@@ -336,6 +339,17 @@ export default function RecipeDetail({ recipe, onEdit, onDelete, onBack, isFavor
           „Z pamiętnika kulinarnego Kingi"
         </p>
       </div>
+
+      {/* Comments Section */}
+      {!recipe.isPremium && (
+        <Comments
+          comments={comments}
+          loading={commentsLoading}
+          onAdd={addComment}
+          onDelete={deleteComment}
+          isAdmin={isAdmin}
+        />
+      )}
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (

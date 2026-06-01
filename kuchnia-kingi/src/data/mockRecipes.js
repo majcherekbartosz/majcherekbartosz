@@ -1,11 +1,11 @@
 export const CATEGORIES = ['Śniadanie', 'Obiad', 'Kolacja', 'Deser', 'Przekąski'];
 
 export const CATEGORY_COLORS = {
-  'Śniadanie': { bg: 'bg-amber-100', text: 'text-amber-700', border: 'border-amber-200' },
-  'Obiad':     { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-200' },
-  'Kolacja':   { bg: 'bg-blue-100', text: 'text-blue-700', border: 'border-blue-200' },
-  'Deser':     { bg: 'bg-pink-100', text: 'text-pink-700', border: 'border-pink-200' },
-  'Przekąski': { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-200' },
+  'Śniadanie': { bg: 'bg-pink-100', text: 'text-pink-700', border: 'border-pink-200' },
+  'Obiad':     { bg: 'bg-rose-100', text: 'text-rose-700', border: 'border-rose-200' },
+  'Kolacja':   { bg: 'bg-fuchsia-100', text: 'text-fuchsia-700', border: 'border-fuchsia-200' },
+  'Deser':     { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-100' },
+  'Przekąski': { bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-100' },
 };
 
 export const mockRecipes = [
