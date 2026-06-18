@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Culinary Diary - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#7a594f",
+                      "on-surface": "#1b1c1a",
+                      "secondary-container": "#ffd3c6",
+                      "primary-fixed-dim": "#ffb1c0",
+                      "tertiary-fixed-dim": "#cfc5b9",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "outline": "#887175",
+                      "on-primary-fixed-variant": "#81233f",
+                      "surface-variant": "#e4e2df",
+                      "on-surface-variant": "#554245",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#4c463c",
+                      "secondary": "#77574d",
+                      "on-background": "#1b1c1a",
+                      "secondary-fixed-dim": "#e7bdb1",
+                      "surface-container": "#efeeeb",
+                      "on-tertiary-container": "#443f35",
+                      "inverse-on-surface": "#f2f0ed",
+                      "outline-variant": "#dbc0c4",
+                      "surface-container-highest": "#e4e2df",
+                      "surface-tint": "#a03b56",
+                      "primary-fixed": "#ffd9df",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#dbdad7",
+                      "surface-bright": "#fbf9f6",
+                      "inverse-surface": "#30312f",
+                      "primary": "#a03b56",
+                      "secondary-fixed": "#ffdbd0",
+                      "surface-container-high": "#eae8e5",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f5f3f0",
+                      "on-primary-container": "#771b38",
+                      "on-secondary-fixed-variant": "#5d4037",
+                      "on-tertiary-fixed": "#1f1b13",
+                      "tertiary-container": "#b3aa9e",
+                      "surface": "#fbf9f6",
+                      "on-secondary-fixed": "#2c150e",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#ffb1c0",
+                      "on-primary-fixed": "#3f0016",
+                      "tertiary-fixed": "#ebe1d4",
+                      "primary-container": "#ff85a1",
+                      "on-error": "#ffffff",
+                      "tertiary": "#645d53",
+                      "background": "#fbf9f6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "xl": "64px",
+                      "base": "8px",
+                      "margin-desktop": "80px",
+                      "gutter": "20px",
+                      "md": "24px",
+                      "xs": "4px",
+                      "lg": "48px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "display": [
+                              "Playfair Display"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ]
+              },
+              "fontSize": {
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .bento-shadow {
+            box-shadow: 0 10px 30px rgba(125, 92, 82, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-[100px] md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-background dark:bg-background flex justify-between items-center px-margin-mobile md:px-margin-desktop py-md">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl" data-icon="menu_book">menu_book</span>
+</button>
+<h1 class="font-display text-headline-md text-primary dark:text-primary-fixed-dim m-0">Culinary Diary</h1>
+<button aria-label="Search" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl" data-icon="search">search</span>
+</button>
+</header>
+<main class="px-margin-mobile md:px-margin-desktop py-md max-w-[1440px] mx-auto flex flex-col gap-md">
+<!-- Hero: Recipe of the Day -->
+<section class="w-full relative rounded-xl overflow-hidden bento-shadow h-[400px] md:h-[500px] group border border-tertiary-fixed">
+<img alt="Recipe of the day" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A beautifully styled overhead shot of a rustic, freshly baked sourdough loaf resting on a wooden cutting board, surrounded by scattering of flour and a pat of rich yellow butter. The lighting is soft and warm, characteristic of an editorial food photograph with a light cream background and modern, elegant composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1eU9tpg4-xMAZ5ylAMhwTXwZj4oI7cirMN7w-98lDMxEnPwm7dLvINgZzedIFRhQ_LFjyGsQ5FfxzZPPCeJwAxLNp-kex_5cexI77AZCce03ZtEY5BlLzEuKe-GWttokCRU96Ax3T9wsXzrLMt0NTLuHNtb5ETFY3dbOFhxfZW3am-6NxZHNwbGoimL4YFIDkuFWb13hPZ16zB_9jnVOZekk7U7IM0wAg1kvJmNEUuaHy-RIRHSvmuxlPcarKmYNOcv7vlsNmY3w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-lg w-full flex flex-col gap-sm">
+<span class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-3 py-1 rounded-full w-max uppercase tracking-widest backdrop-blur-sm">Recipe of the Day</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white m-0">Artisan Rustic Sourdough</h2>
+<div class="flex items-center gap-xs text-white/90 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule" data-weight="fill" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<span>4 hrs</span>
+<span class="mx-2 opacity-50">•</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="bar_chart">bar_chart</span>
+<span>Advanced</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Recent Recipes -->
+<div class="flex items-center justify-between mt-md">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-on-background">Recent Recipes</h3>
+<button class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity">View All</button>
+</div>
+<section class="grid grid-cols-4 md:grid-cols-12 gap-gutter auto-rows-[250px]">
+<!-- Bento Item 1: Large Card -->
+<article class="col-span-4 md:col-span-8 row-span-2 rounded-xl overflow-hidden bento-shadow bg-surface relative group border border-tertiary-fixed">
+<div class="h-2/3 w-full overflow-hidden">
+<img alt="Caprese Salad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, fresh summer salad in a wide ceramic bowl, featuring bright red cherry tomatoes, rich green basil leaves, and creamy white mozzarella pearls, drizzled with olive oil and balsamic glaze. The aesthetic is bright, editorial, and appetizing with a subtle light cream tone in the background elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM2b_1gQxA8L09EZZMYoNmMYahJ0GK-Yz9cbt39bGaiqZg_-CHwxhpifXX51xZ3rMZxSKUrjN7yyMoG0jH4NzOHdb2kdOF0ldA2EsVxgrB6deJHirvaf900OL3CEDO2A-rLiFnMcj-gRACIen3FIbxkbVHPWImHiqDFmal7slLRR9B1wFkhKox28birGEgd2rMneaJhI19LvTVpviTeBAG8xPWnrFWZGWpSRO58tAKQxWpGQEkK5VGwV9lEDVcZU-7Lj2TYr3U07E"/>
+</div>
+<div class="p-md h-1/3 flex flex-col justify-between bg-surface">
+<h4 class="font-headline-md text-headline-md text-on-surface m-0 truncate">Summer Heirloom Caprese</h4>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span>15 mins</span>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">Vegetarian</span>
+</div>
+</div>
+</article>
+<!-- Bento Item 2: Small Square -->
+<article class="col-span-2 md:col-span-4 row-span-1 rounded-xl overflow-hidden bento-shadow bg-surface p-md flex flex-col justify-between border border-tertiary-fixed hover:-translate-y-1 transition-transform duration-300">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-sm">
+<span class="material-symbols-outlined" data-icon="cake">cake</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface text-lg leading-tight mb-xs">Lemon Tart</h4>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+<span>45 mins</span>
+</div>
+</div>
+</article>
+<!-- Bento Item 3: Small Square -->
+<article class="col-span-2 md:col-span-4 row-span-1 rounded-xl overflow-hidden bento-shadow bg-surface p-md flex flex-col justify-between border border-tertiary-fixed hover:-translate-y-1 transition-transform duration-300">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed mb-sm">
+<span class="material-symbols-outlined" data-icon="local_cafe">local_cafe</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface text-lg leading-tight mb-xs">Matcha Latte</h4>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+<span>5 mins</span>
+</div>
+</div>
+</article>
+<!-- Bento Item 4: Tall Card -->
+<article class="col-span-4 md:col-span-4 row-span-2 rounded-xl overflow-hidden bento-shadow bg-surface relative group border border-tertiary-fixed">
+<div class="absolute inset-0 z-0">
+<img alt="Grilled Steak" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up, mouth-watering shot of a perfectly grilled steak, sliced to reveal a juicy, pink center, garnished with coarse sea salt and fresh rosemary sprigs on a dark slate board. The lighting is dramatic yet warm, fitting a premium culinary app with a soft pink and cream secondary palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1iLI2perisnC84urjomXA-wJZu9sYDAg2FFOn3u_eybAOGE3Kv_mUUtNApcDE6zBRw7Bk16yOHZUuFtnkA1MTAg7AJszUEFmncyeeMN8uOmJtaIf1jwC-OxWY5GQs_cQF2kS1rdx72reNQ6qO07yOzwfki3eL5JIriiQ59B-p_hk_6Dvh-8n7LSDHT0Drz2m8MmUL5RwOBexz75O8Gl4iFzhMdgOc_Sr1oQYGsYJfTBw8WzXIyhEZ7JOziYXLm3-Y9x4zwG4nsKE"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
+<div class="absolute bottom-0 left-0 p-md w-full z-20 flex flex-col gap-xs">
+<h4 class="font-headline-md text-headline-md text-white m-0">Perfect Ribeye</h4>
+<div class="flex items-center gap-xs text-white/80 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span>25 mins</span>
+</div>
+</div>
+</article>
+<!-- Bento Item 5: Wide Text Card -->
+<article class="col-span-4 md:col-span-8 row-span-1 rounded-xl overflow-hidden bento-shadow bg-[#FAF8F5] p-md flex flex-col justify-center border border-tertiary-fixed group hover:bg-surface-container transition-colors duration-300">
+<div class="flex items-start gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Tomato Soup" class="w-full h-full object-cover" data-alt="A top-down view of a steaming bowl of creamy tomato soup with a swirl of fresh cream and a sprig of basil, accompanied by a crispy grilled cheese sandwich. Warm, comforting light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAECDueMkaA1f6q3FUfaJ74so8B6wfRU5G0R35VbbW-nd7K6dIcOWmeaVdfK81A61XqkHknnWtqUFCgpUgqMlB_FMWBpW99SpwqGaq4rwENbKieciuF1vhLKoTBD8SyNXjRmn-Zfa7zIvQoflHAm2C6PjEyOUYfDNlxMHUMS473ibupzAybdCG5C8d9hpDbV3rq5gH_pX9dUedYZmbrunvCr0KGNFCBzH_qq3fEuS1HgZekX9d8c_GV8DmA_GCREzxdyTmPYsrteFw"/>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface text-xl mb-xs group-hover:text-primary transition-colors">Creamy Tomato Basil Soup</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">A comforting classic, perfect for a rainy afternoon. Pairs wonderfully with a crispy grilled cheese sandwich.</p>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-lg bg-surface dark:bg-surface-container-low border-t border-tertiary-fixed shadow-[0_-10px_30px_rgba(125,92,82,0.08)]">
+<ul class="flex justify-around items-center px-4 py-3 m-0 list-none">
+<li>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-fixed-dim text-on-primary-container dark:text-on-primary-fixed rounded-full px-4 py-1 active:scale-95 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-full" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm">Discover</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-full" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-label-sm text-label-sm">Shopping</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-full" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</li>
+</ul>
+</nav>
+</body></html>
