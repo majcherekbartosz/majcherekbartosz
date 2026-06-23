@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     scroll-behavior: smooth;
   }
 
@@ -15,23 +15,23 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
+    @apply bg-brand-400 hover:bg-brand-600 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-cream-100 text-charcoal-800 border border-cream-200 font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
+    @apply bg-white hover:bg-surface-dim text-charcoal-700 border border-outline-variant font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
   }
 
   .btn-sage {
-    @apply bg-sage-500 hover:bg-sage-600 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
+    @apply bg-sage-400 hover:bg-sage-500 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
   }
 
   .input-field {
-    @apply w-full bg-white border border-cream-200 rounded-xl px-4 py-3 text-charcoal-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terracotta-400 focus:border-transparent transition-all duration-200;
+    @apply w-full bg-white border border-outline-variant rounded-xl px-4 py-3 text-charcoal-700 placeholder-outline focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all duration-200;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-cream-200;
+    @apply bg-surface-card rounded-3xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border border-outline-variant/30;
   }
 
   .tag-pill {
@@ -39,7 +39,6 @@
   }
 }
 
-/* Hide scrollbar but keep scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -48,33 +47,17 @@
   display: none;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFF0F3;
+  background: #FFF0F4;
 }
 ::-webkit-scrollbar-thumb {
   background: #FF85A1;
   border-radius: 3px;
 }
 
-/* Smooth transitions */
 * {
   -webkit-tap-highlight-color: transparent;
-}
-
-/* Print / PDF styles */
-@media print {
-  body {
-    background: white !important;
-    font-family: 'Playfair Display', Georgia, serif;
-  }
-  .no-print {
-    display: none !important;
-  }
-  .pdf-page {
-    page-break-inside: avoid;
-  }
 }
