@@ -3,6 +3,7 @@ import type { Recipe } from '@/lib/supabase/types'
 import RecipeCard from '@/components/recipes/RecipeCard'
 import EmptyState from '@/components/ui/EmptyState'
 import AppShell from '@/components/layout/AppShell'
+import OnboardingChecklist from '@/components/onboarding/OnboardingChecklist'
 import Link from 'next/link'
 
 const CATEGORY_TILES = [
@@ -29,6 +30,8 @@ export default async function HomePage() {
 
   const featuredRecipe = recipes[0]
   const recentRecipes = recipes.slice(1)
+  const hasImage = recipes.some((r) => !!r.image)
+  const hasFavorite = recipes.some((r) => r.is_favorite)
 
   return (
     <AppShell>
@@ -40,6 +43,14 @@ export default async function HomePage() {
           </h1>
           <p className="text-on-surface-variant text-sm mt-1">Co gotujesz dziś?</p>
         </div>
+
+        {/* Onboarding */}
+        <OnboardingChecklist
+          recipeCount={recipes.length}
+          hasImage={hasImage}
+          hasShoppingItems={false}
+          hasFavorite={hasFavorite}
+        />
 
         {recipes.length === 0 ? (
           <EmptyState
