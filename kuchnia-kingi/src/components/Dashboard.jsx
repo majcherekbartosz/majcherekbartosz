@@ -38,65 +38,18 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
   }, [recipes, query, ingredientQuery, activeCategory, searchMode]);
 
   const tabs = [ALL, ...CATEGORIES];
-
   const activeQuery = searchMode === 'ingredients' ? ingredientQuery : query;
+  const featuredRecipe = filtered[0];
+  const restRecipes = filtered.slice(1);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Hero */}
-      <div className="mb-8 sm:mb-12">
-        <p className="text-sm font-medium text-terracotta-500 uppercase tracking-widest mb-2 font-sans">
-          Witaj w kuchni
-        </p>
-        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-charcoal-800 leading-tight mb-3">
-          Moje przepisy
-        </h1>
-        <p className="text-gray-500 text-base sm:text-lg max-w-xl">
-          {recipes.length === 0
-            ? 'Zacznij od dodania swojego pierwszego przepisu!'
-            : `${recipes.length} ${recipes.length === 1 ? 'przepis' : recipes.length < 5 ? 'przepisy' : 'przepisów'} w kolekcji`}
-        </p>
-      </div>
-
-      {/* Search Mode Toggle */}
-      <div className="flex gap-2 mb-3">
-        <button
-          onClick={() => setSearchMode('title')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-            searchMode === 'title'
-              ? 'bg-terracotta-500 text-white shadow-sm'
-              : 'bg-white text-gray-500 border border-gray-200 hover:border-terracotta-300'
-          }`}
-        >
-          <Search size={12} />
-          Po nazwie
-        </button>
-        <button
-          onClick={() => setSearchMode('ingredients')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-            searchMode === 'ingredients'
-              ? 'bg-sage-500 text-white shadow-sm'
-              : 'bg-white text-gray-500 border border-gray-200 hover:border-sage-300'
-          }`}
-        >
-          <UtensilsCrossed size={12} />
-          Mam w lodówce...
-        </button>
-      </div>
-
-      {/* Search Input */}
+    <div className="max-w-6xl mx-auto px-5 md:px-8 py-6 md:py-10">
+      {/* Search */}
       <div className="relative mb-6">
-        {searchMode === 'title' ? (
-          <Search
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-          />
-        ) : (
-          <UtensilsCrossed
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-sage-500 pointer-events-none"
-          />
-        )}
+        <Search
+          size={18}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none"
+        />
         <input
           type="search"
           value={searchMode === 'ingredients' ? ingredientQuery : query}
@@ -107,27 +60,53 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
           }
           placeholder={
             searchMode === 'ingredients'
-              ? 'Wpisz składniki oddzielone przecinkami, np. kurczak, ryż, czosnek'
+              ? 'Wpisz składniki: kurczak, ryż, czosnek...'
               : 'Szukaj przepisów...'
           }
-          className={`input-field pl-11 pr-10 ${searchMode === 'ingredients' ? 'border-sage-200 focus:ring-sage-400' : ''}`}
-          aria-label={searchMode === 'ingredients' ? 'Szukaj po składnikach' : 'Szukaj przepisów'}
+          className="input-field pl-11 pr-10"
+          aria-label="Szukaj przepisów"
         />
         {activeQuery && (
           <button
             onClick={() => searchMode === 'ingredients' ? setIngredientQuery('') : setQuery('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-            aria-label="Wyczyść wyszukiwanie"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-charcoal-700 transition-colors"
+            aria-label="Wyczyść"
           >
             <X size={16} />
           </button>
         )}
       </div>
 
-      {/* Ingredient search hint */}
+      {/* Search mode toggle */}
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => setSearchMode('title')}
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium transition-all duration-200 ${
+            searchMode === 'title'
+              ? 'bg-brand-400 text-white shadow-sm'
+              : 'bg-surface-card text-charcoal-600 border border-outline-variant/50 hover:border-brand-400'
+          }`}
+        >
+          <Search size={12} />
+          Po nazwie
+        </button>
+        <button
+          onClick={() => setSearchMode('ingredients')}
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium transition-all duration-200 ${
+            searchMode === 'ingredients'
+              ? 'bg-sage-400 text-white shadow-sm'
+              : 'bg-surface-card text-charcoal-600 border border-outline-variant/50 hover:border-sage-400'
+          }`}
+        >
+          <UtensilsCrossed size={12} />
+          Mam w lodówce...
+        </button>
+      </div>
+
+      {/* Ingredient hint */}
       {searchMode === 'ingredients' && ingredientQuery && (
-        <p className="text-xs text-sage-600 -mt-4 mb-5 pl-1">
-          Znaleziono {filtered.length} {filtered.length === 1 ? 'przepis' : filtered.length < 5 ? 'przepisy' : 'przepisów'} zawierających te składniki
+        <p className="text-xs text-sage-500 -mt-4 mb-5 pl-1">
+          Znaleziono {filtered.length} {filtered.length === 1 ? 'przepis' : filtered.length < 5 ? 'przepisy' : 'przepisów'}
         </p>
       )}
 
@@ -139,8 +118,8 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
             onClick={() => setActiveCategory(tab)}
             className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
               activeCategory === tab
-                ? 'bg-terracotta-500 text-white shadow-sm'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-terracotta-300 hover:text-terracotta-500'
+                ? 'bg-brand-400 text-white shadow-sm'
+                : 'bg-surface-card text-charcoal-600 border border-outline-variant/50 hover:border-brand-400 hover:text-brand-600'
             }`}
           >
             {tab}
@@ -148,31 +127,77 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
         ))}
       </div>
 
-      {/* Grid */}
+      {/* Content */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
-          {filtered.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => onRecipeClick(recipe.id)}
-              isFavorite={isFavorite(recipe.id)}
-              onToggleFavorite={onToggleFavorite}
-            />
-          ))}
+        <div className="space-y-8">
+          {/* Featured recipe — large card */}
+          {featuredRecipe && (
+            <div
+              onClick={() => onRecipeClick(featuredRecipe.id)}
+              className="card cursor-pointer group"
+              role="button"
+              tabIndex={0}
+            >
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <img
+                  src={featuredRecipe.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=70'}
+                  alt={featuredRecipe.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-brand-400/90 backdrop-blur-sm text-white text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
+                    Recipe of the day
+                  </span>
+                </div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h2 className="font-serif text-2xl md:text-3xl font-semibold text-white leading-tight mb-2">
+                    {featuredRecipe.title}
+                  </h2>
+                  <div className="flex items-center gap-3 text-white/80 text-xs">
+                    <span>⏱ {featuredRecipe.prepTime} min</span>
+                    <span>👤 {featuredRecipe.servings} porcji</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Recent Recipes heading */}
+          {restRecipes.length > 0 && (
+            <>
+              <div className="flex items-center justify-between">
+                <h2 className="font-serif font-semibold text-lg text-charcoal-700">Recent Recipes</h2>
+                <span className="text-xs font-medium text-brand-400">View All</span>
+              </div>
+
+              {/* Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {restRecipes.map((recipe) => (
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    onClick={() => onRecipeClick(recipe.id)}
+                    isFavorite={isFavorite(recipe.id)}
+                    onToggleFavorite={onToggleFavorite}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="w-20 h-20 bg-cream-100 rounded-full flex items-center justify-center mb-5">
-            <BookOpen size={32} className="text-terracotta-300" />
+          <div className="w-20 h-20 bg-brand-50 rounded-full flex items-center justify-center mb-5">
+            <BookOpen size={32} className="text-brand-200" />
           </div>
           <h3 className="font-serif text-2xl font-semibold text-charcoal-700 mb-2">
             Brak przepisów
           </h3>
-          <p className="text-gray-400 mb-6 max-w-xs">
+          <p className="text-outline mb-6 max-w-xs">
             {activeQuery || activeCategory !== ALL
               ? searchMode === 'ingredients'
-                ? 'Nie znaleziono przepisów z podanymi składnikami. Spróbuj zmienić listę.'
+                ? 'Nie znaleziono przepisów z podanymi składnikami.'
                 : 'Nie znaleziono przepisów pasujących do kryteriów.'
               : 'Twoja kuchenna książka jest pusta. Czas ją zapełnić!'}
           </p>
