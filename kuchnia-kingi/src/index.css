@@ -4,69 +4,42 @@
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Work Sans', system-ui, sans-serif;
     scroll-behavior: smooth;
+    background-color: #fff8f8;
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Libre Caslon Text', Georgia, serif;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
+    @apply bg-tertiary hover:bg-on-tertiary-container text-on-tertiary font-medium px-6 py-3 rounded-full transition-all duration-200 shadow-card hover:shadow-card-hover active:scale-95;
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-cream-100 text-charcoal-800 border border-cream-200 font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
-  }
-
-  .btn-sage {
-    @apply bg-sage-500 hover:bg-sage-600 text-white font-medium px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md active:scale-95;
+    @apply bg-surface-container-lowest hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium px-5 py-2.5 rounded-full transition-all duration-200;
   }
 
   .input-field {
-    @apply w-full bg-white border border-cream-200 rounded-xl px-4 py-3 text-charcoal-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terracotta-400 focus:border-transparent transition-all duration-200;
+    @apply w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-tertiary/30 focus:border-tertiary transition-all duration-200;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-sm overflow-hidden border border-cream-200;
-    transition: all 0.3s ease-in-out;
-  }
-
-  /* Hover lift — tylko mysz / trackpad (nie dotyk) */
-  @media (hover: hover) and (pointer: fine) {
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow:
-        0 14px 28px -8px rgba(74, 16, 40, 0.16),
-        0 10px 16px -12px rgba(74, 16, 40, 0.12);
-    }
-
-    .recipe-card:hover .recipe-card__image {
-      @apply scale-105;
-    }
-
-    .recipe-card:hover .recipe-card__overlay {
-      @apply opacity-100;
-    }
-
-    .recipe-card:hover .recipe-card__title {
-      @apply text-terracotta-500;
-    }
-
-    .recipe-card:hover .recipe-card__chevron {
-      @apply text-terracotta-400 translate-x-1;
-    }
+    @apply bg-surface-container-lowest rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border border-outline-variant/20;
   }
 
   .tag-pill {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-label-caps font-sans uppercase tracking-widest;
+  }
+
+  .label-caps {
+    @apply text-label-caps font-sans uppercase tracking-widest;
   }
 }
 
-/* Hide scrollbar but keep scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -75,33 +48,17 @@
   display: none;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFF0F3;
+  background: #fff8f8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #FF85A1;
+  background: #d0c3c7;
   border-radius: 3px;
 }
 
-/* Smooth transitions */
 * {
   -webkit-tap-highlight-color: transparent;
-}
-
-/* Print / PDF styles */
-@media print {
-  body {
-    background: white !important;
-    font-family: 'Playfair Display', Georgia, serif;
-  }
-  .no-print {
-    display: none !important;
-  }
-  .pdf-page {
-    page-break-inside: avoid;
-  }
 }

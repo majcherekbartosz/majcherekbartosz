@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChefHat, Plus, ArrowLeft, User, Heart, LogIn, LogOut, Menu, X, BarChart3, ChevronDown, Settings, ShoppingCart } from 'lucide-react';
+import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout, shoppingListCount = 0 }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -16,241 +15,139 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleNavClick = (action) => {
-    action();
-    setMobileMenuOpen(false);
-  };
-
   const handleDropdownClick = (action) => {
     action();
     setAdminDropdownOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-cream-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18">
-          <div className="flex items-center gap-3">
-            {showBack && (
-              <button
-                onClick={onBack}
-                className="flex items-center gap-1.5 text-charcoal-700 hover:text-terracotta-500 transition-colors mr-2 min-w-[44px] min-h-[44px] justify-center"
-                aria-label="Wróć"
-              >
-                <ArrowLeft size={20} />
-                <span className="text-sm font-medium hidden sm:inline">Wróć</span>
-              </button>
-            )}
-            <button
-              onClick={onLogoClick}
-              className="flex items-center gap-2.5 group"
-              aria-label="Kuchnia Kingi – strona główna"
-            >
-              <div className="w-9 h-9 bg-gradient-to-br from-terracotta-400 to-terracotta-600 rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-                <ChefHat size={18} className="text-white" />
-              </div>
-              <div className="leading-tight">
-                <span className="font-serif text-xl font-bold text-charcoal-800 tracking-tight">
-                  Kuchnia Kingi
-                </span>
-                <span className="block text-xs text-pink-400 font-sans leading-none -mt-0.5 hidden sm:block">
-                  pamiętnik kulinarny
-                </span>
-              </div>
-            </button>
-          </div>
+    <>
+      {/* Mobile top bar */}
+      <header className="md:hidden sticky top-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md px-margin-mobile py-2 flex items-center justify-between shadow-soft">
+        {showBack ? (
+          <button onClick={onBack} className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Wróć">
+            <ArrowLeft size={20} />
+          </button>
+        ) : (
+          <button onClick={onLogoClick} className="w-10 h-10 flex items-center justify-center" aria-label="Menu">
+            <Menu size={20} className="text-primary" />
+          </button>
+        )}
+        <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
+        <button className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
+          <Search size={20} />
+        </button>
+      </header>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1.5 sm:gap-2.5">
-            <button
-              onClick={onFavorites}
-              className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
-                currentView === 'favorites'
-                  ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
-              }`}
-              aria-label="Moja Kolekcja"
-            >
-              <Heart size={15} />
-              <span>Moja Kolekcja</span>
+      {/* Desktop top bar */}
+      <header className="hidden md:flex sticky top-0 z-50 h-16 items-center justify-between px-margin-desktop bg-surface-container-lowest/80 backdrop-blur-md shadow-soft">
+        <div className="flex items-center gap-4">
+          {showBack && (
+            <button onClick={onBack} className="flex items-center gap-1.5 text-primary hover:text-tertiary transition-colors" aria-label="Wróć">
+              <ArrowLeft size={18} />
+              <span className="text-body-sm">Wróć</span>
             </button>
-            <button
-              onClick={onShoppingList}
-              className={`relative flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
-                currentView === 'shopping'
-                  ? 'bg-sage-100 text-sage-700'
-                  : 'text-charcoal-700 hover:text-sage-600 hover:bg-sage-50'
-              }`}
-              aria-label="Lista zakupów"
-            >
-              <ShoppingCart size={15} />
-              <span>Lista zakupów</span>
-              {shoppingListCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-sage-500 text-white text-[10px] font-bold tabular-nums">
-                  {shoppingListCount > 99 ? '99+' : shoppingListCount}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={onAbout}
-              className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
-                currentView === 'about'
-                  ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
-              }`}
-              aria-label="O mnie"
-            >
-              <User size={15} />
-              <span>O mnie</span>
-            </button>
-            {isAdmin ? (
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
-                  className={`flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full transition-all duration-200 min-h-[44px] ${
-                    adminDropdownOpen || currentView === 'admin'
-                      ? 'bg-cream-100 text-terracotta-600'
-                      : 'text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50'
-                  }`}
-                  aria-label="Menu admina"
-                >
-                  <Settings size={15} />
-                  <span>Admin</span>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${adminDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {adminDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl border border-cream-200 shadow-lg py-2 z-50">
-                    <button
-                      onClick={() => handleDropdownClick(onAddRecipe)}
-                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
-                    >
-                      <Plus size={16} />
-                      Nowy przepis
-                    </button>
-                    <button
-                      onClick={() => handleDropdownClick(onAnalytics)}
-                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-charcoal-700 hover:bg-cream-50 hover:text-terracotta-500 transition-colors min-h-[44px]"
-                    >
-                      <BarChart3 size={16} />
-                      Analityka
-                    </button>
-                    <div className="border-t border-cream-200 my-1" />
-                    <button
-                      onClick={() => handleDropdownClick(onLogout)}
-                      className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors min-h-[44px]"
-                    >
-                      <LogOut size={16} />
-                      Wyloguj
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                onClick={onLogin}
-                className="flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-full text-charcoal-700 hover:text-terracotta-500 hover:bg-cream-50 transition-all duration-200 min-h-[44px]"
-                aria-label="Zaloguj się"
-              >
-                <LogIn size={15} />
-                <span>Admin</span>
-              </button>
-            )}
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex items-center justify-center w-11 h-11 rounded-full text-charcoal-700 hover:bg-cream-100 transition-colors"
-            aria-label={mobileMenuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          )}
+          <button onClick={onLogoClick} className="flex items-center gap-2 group" aria-label="Strona główna">
+            <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
           </button>
         </div>
 
-        {/* Mobile menu dropdown */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-cream-200 py-3 pb-4 space-y-1">
-            <button
-              onClick={() => handleNavClick(onFavorites)}
-              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
-                currentView === 'favorites'
-                  ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-700 hover:bg-cream-50'
-              }`}
-            >
-              <Heart size={18} />
-              Moja Kolekcja
-            </button>
-            <button
-              onClick={() => handleNavClick(onShoppingList)}
-              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
-                currentView === 'shopping'
-                  ? 'bg-sage-100 text-sage-700'
-                  : 'text-charcoal-700 hover:bg-cream-50'
-              }`}
-            >
-              <ShoppingCart size={18} />
-              <span className="flex-1">Lista zakupów</span>
-              {shoppingListCount > 0 && (
-                <span className="min-w-[22px] h-[22px] px-1.5 flex items-center justify-center rounded-full bg-sage-500 text-white text-xs font-bold">
-                  {shoppingListCount > 99 ? '99+' : shoppingListCount}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => handleNavClick(onAbout)}
-              className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl transition-all min-h-[44px] ${
-                currentView === 'about'
-                  ? 'bg-cream-100 text-terracotta-600'
-                  : 'text-charcoal-700 hover:bg-cream-50'
-              }`}
-            >
-              <User size={18} />
-              O mnie
-            </button>
-            {isAdmin ? (
-              <>
-                <div className="border-t border-cream-200 my-2" />
-                <p className="px-3 py-1 text-xs text-terracotta-400 uppercase tracking-wide font-medium">Panel Admina</p>
-                <button
-                  onClick={() => handleNavClick(onAddRecipe)}
-                  className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl bg-terracotta-500 text-white min-h-[44px]"
-                >
-                  <Plus size={18} />
-                  Nowy przepis
-                </button>
-                <button
-                  onClick={() => handleNavClick(onAnalytics)}
-                  className={`flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl min-h-[44px] ${
-                    currentView === 'admin'
-                      ? 'bg-cream-100 text-terracotta-600'
-                      : 'text-charcoal-700 hover:bg-cream-50'
-                  }`}
-                >
-                  <BarChart3 size={18} />
-                  Analityka
-                </button>
-                <button
-                  onClick={() => handleNavClick(onLogout)}
-                  className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl text-red-500 hover:bg-red-50 min-h-[44px]"
-                >
-                  <LogOut size={18} />
-                  Wyloguj
-                </button>
-              </>
-            ) : (
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onFavorites}
+            className={`flex items-center gap-1.5 text-body-sm font-medium px-4 py-2 rounded-full transition-all duration-200 ${
+              currentView === 'favorites'
+                ? 'bg-primary-container text-on-primary-container'
+                : 'text-on-surface-variant hover:bg-surface-container hover:text-tertiary'
+            }`}
+          >
+            <Heart size={15} />
+            <span>Ulubione</span>
+          </button>
+          <button
+            onClick={onAbout}
+            className={`flex items-center gap-1.5 text-body-sm font-medium px-4 py-2 rounded-full transition-all duration-200 ${
+              currentView === 'about'
+                ? 'bg-primary-container text-on-primary-container'
+                : 'text-on-surface-variant hover:bg-surface-container hover:text-tertiary'
+            }`}
+          >
+            <span>O mnie</span>
+          </button>
+
+          {isAdmin ? (
+            <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => handleNavClick(onLogin)}
-                className="flex items-center gap-3 w-full text-left text-sm font-medium px-3 py-3 rounded-xl text-charcoal-700 hover:bg-cream-50 min-h-[44px]"
+                onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
+                className={`flex items-center gap-1.5 text-body-sm font-medium px-4 py-2 rounded-full transition-all duration-200 ${
+                  adminDropdownOpen || currentView === 'admin'
+                    ? 'bg-primary-container text-on-primary-container'
+                    : 'text-on-surface-variant hover:bg-surface-container hover:text-tertiary'
+                }`}
               >
-                <LogIn size={18} />
-                Panel Admina
+                <Settings size={15} />
+                <span>Admin</span>
+                <ChevronDown size={14} className={`transition-transform ${adminDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-            )}
+
+              {adminDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-52 bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-card py-2 z-50">
+                  <button onClick={() => handleDropdownClick(onAddRecipe)} className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-body-sm text-on-surface hover:bg-surface-container hover:text-tertiary transition-colors">
+                    <Plus size={16} /> Nowy przepis
+                  </button>
+                  <button onClick={() => handleDropdownClick(onAnalytics)} className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-body-sm text-on-surface hover:bg-surface-container hover:text-tertiary transition-colors">
+                    <BarChart3 size={16} /> Analityka
+                  </button>
+                  <div className="border-t border-outline-variant/30 my-1" />
+                  <button onClick={() => handleDropdownClick(onLogout)} className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-body-sm text-error hover:bg-error-container/30 transition-colors">
+                    <LogOut size={16} /> Wyloguj
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button onClick={onLogin} className="flex items-center gap-1.5 text-body-sm font-medium px-4 py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-tertiary transition-all duration-200">
+              <LogIn size={15} /> <span>Admin</span>
+            </button>
+          )}
+
+          {isAdmin && (
+            <button onClick={onAddRecipe} className="btn-primary flex items-center gap-2 text-body-sm ml-2">
+              <Plus size={16} /> Przepis
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* Mobile bottom navigation (screen6.png) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-outline-variant/20 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-around h-16">
+          <MobileTab icon={Home} label="Discover" active={currentView === 'dashboard'} onClick={onLogoClick} />
+          <MobileTab icon={Heart} label="Saved" active={currentView === 'favorites'} onClick={onFavorites} />
+          {/* Center FAB */}
+          <div className="relative -mt-6">
+            <button
+              onClick={isAdmin ? onAddRecipe : onLogoClick}
+              className="w-14 h-14 rounded-full bg-tertiary text-on-tertiary shadow-card flex items-center justify-center active:scale-90 transition-transform"
+              aria-label="Dodaj przepis"
+            >
+              <Plus size={24} />
+            </button>
           </div>
-        )}
-      </div>
-    </header>
+          <MobileTab icon={ShoppingCart} label="Zakupy" active={false} onClick={onLogoClick} />
+          <MobileTab icon={Search} label="Szukaj" active={false} onClick={onLogoClick} />
+        </div>
+      </nav>
+    </>
+  );
+}
+
+function MobileTab({ icon: Icon, label, active, onClick }) {
+  return (
+    <button onClick={onClick} className="flex flex-col items-center gap-0.5 py-2 px-3" aria-label={label}>
+      <Icon size={20} className={active ? 'text-tertiary' : 'text-outline'} />
+      <span className={`text-[10px] font-medium ${active ? 'text-tertiary' : 'text-outline'}`}>{label}</span>
+    </button>
   );
 }

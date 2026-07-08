@@ -72,7 +72,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-    <div className="min-h-screen bg-cream-50" style={{ backgroundColor: '#FFF0F3' }}>
+    <div className="min-h-screen bg-background font-sans text-on-surface pb-20 md:pb-0">
       <Header
         onLogoClick={() => navigate('dashboard')}
         onAddRecipe={() => navigate('add')}
