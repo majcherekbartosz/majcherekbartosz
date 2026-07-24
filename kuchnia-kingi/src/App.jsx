@@ -1,181 +1,147 @@
-import { useState, useEffect } from 'react';
-import { useRecipes } from './hooks/useRecipes';
-import { useFavorites } from './hooks/useFavorites';
-import { useRatings } from './hooks/useRatings';
-import { useGlobalShoppingList } from './hooks/useGlobalShoppingList';
-import { useAnalytics } from './hooks/useAnalytics';
-import { useAuth } from './hooks/useAuth';
-import Dashboard from './components/Dashboard';
-import RecipeDetail from './components/RecipeDetail';
-import AddEditRecipe from './components/AddEditRecipe';
-import AboutMe from './components/AboutMe';
-import FavoritesCollection from './components/FavoritesCollection';
-import ShoppingListView from './components/ShoppingListView';
-import AdminDashboard from './components/AdminDashboard';
-import { buildRecipeShoppingItems } from './utils/buildShoppingList';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ErrorBoundary from './components/ErrorBoundary';
-import LoginModal from './components/LoginModal';
-import PwaInstallBanner from './components/PwaInstallBanner';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export default function App() {
-  const { recipes, addRecipe, updateRecipe, deleteRecipe, getRecipe } = useRecipes();
-  const { favorites, toggleFavorite, isFavorite } = useFavorites();
-  const { setRating, clearRating, getRating } = useRatings();
-  const {
-    items: shoppingItems,
-    uncheckedCount,
-    addFromRecipe,
-    toggleItem: toggleShoppingItem,
-    removeItem: removeShoppingItem,
-    removeRecipeItems,
-    clearChecked,
-    clearAll: clearShoppingList,
-  } = useGlobalShoppingList();
-  const { stats, trackView, trackEbookClick } = useAnalytics();
-  const { isAdmin, signIn, signOut } = useAuth();
-  const [view, setView] = useState('dashboard');
-  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const [showLogin, setShowLogin] = useState(false);
+@layer base {
+  html {
+    font-family: 'Work Sans', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    background-color: #fff8f8;
+  }
 
-  // Zapisuje aktualny ekran na znaczniku <body>, zeby index.css
-  // mogl podmieniac tlo strony zaleznie od widoku.
-  useEffect(() => {
-    document.body.dataset.view = view;
-  }, [view]);
+  h1, h2, h3, h4 {
+    font-family: 'Libre Caslon Text', Georgia, serif;
+  }
+}
 
-  const navigate = (newView, recipeId = null) => {
-    setView(newView);
-    setSelectedRecipeId(recipeId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+/* ============================================================
+   TŁO STRONY — inne zdjęcie na różnych ekranach
+   ------------------------------------------------------------
+   Trzy zdjęcia muszą leżeć w folderze public/:
+     kuchnia-kingi/public/tlo-kulinarne.jpg
+     kuchnia-kingi/public/tlo-rozmyte.jpg
+     kuchnia-kingi/public/tlo-deser.jpg
 
-  const handleSaveRecipe = (data) => {
-    if (view === 'edit' && selectedRecipeId) {
-      updateRecipe(selectedRecipeId, data);
-      navigate('detail', selectedRecipeId);
-    } else {
-      const newRecipe = addRecipe(data);
-      navigate('detail', newRecipe.id);
-    }
-  };
+   JAK ZAMIENIĆ ZDJĘCIA MIĘDZY EKRANAMI:
+   Podmień nazwę pliku w linii url('...') przy danym ekranie.
 
-  const handleDelete = (id) => {
-    deleteRecipe(id);
-    navigate('dashboard');
-  };
+   JAK ZMIENIĆ INTENSYWNOŚĆ:
+   Liczba 0.80 w rgba(255, 248, 248, 0.80) to gęstość zasłony:
+     0.95 = tło prawie niewidoczne
+     0.80 = obecne ustawienie
+     0.75 = tło wyraźnie widoczne
+     0.60 = zdjęcie mocno widoczne (może utrudniać czytanie)
+   Zmieniaj ją wszędzie tak samo, żeby ekrany były spójne.
 
-  const handleRate = (recipeId, stars) => {
-    if (stars === 0) clearRating(recipeId);
-    else setRating(recipeId, stars);
-  };
+   JAK WYŁĄCZYĆ CAŁE TŁO:
+   Usuń wszystko od tego komentarza do końca bloku @media poniżej.
+   ============================================================ */
 
-  const handleAddToShoppingList = (recipe, items) => {
-    const list = items ?? buildRecipeShoppingItems(recipe);
-    return addFromRecipe(recipe, list);
-  };
+/* Warstwa tła — wspólna dla wszystkich ekranów */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: ambientPan 60s ease-in-out infinite;
 
-  return (
-    <ErrorBoundary>
-    <div className="min-h-screen font-sans text-on-surface pb-20 md:pb-0">
-      <Header
-        onLogoClick={() => navigate('dashboard')}
-        onAddRecipe={() => navigate('add')}
-        onAbout={() => navigate('about')}
-        onFavorites={() => navigate('favorites')}
-        onShoppingList={() => navigate('shopping')}
-        onAnalytics={() => navigate('admin')}
-        shoppingListCount={uncheckedCount}
-        showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'shopping' && view !== 'admin'}
-        onBack={() => {
-          if (view === 'detail') navigate('dashboard');
-          else if (view === 'edit') navigate('detail', selectedRecipeId);
-          else navigate('dashboard');
-        }}
-        currentView={view}
-        isAdmin={isAdmin}
-        onLogin={() => setShowLogin(true)}
-        onLogout={signOut}
-      />
+  /* Ekran domyślny: strona główna */
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
+    url('/tlo-kulinarne.jpg');
+}
 
-      {showLogin && (
-        <LoginModal onLogin={signIn} onClose={() => setShowLogin(false)} />
-      )}
+/* Widok pojedynczego przepisu */
+body[data-view="detail"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
+    url('/tlo-rozmyte.jpg');
+}
 
-      <main className="min-h-screen">
-        {view === 'dashboard' && (
-          <Dashboard
-            recipes={recipes}
-            onRecipeClick={(id) => navigate('detail', id)}
-            onAddRecipe={() => navigate('add')}
-            isFavorite={isFavorite}
-            onToggleFavorite={toggleFavorite}
-            getRating={getRating}
-          />
-        )}
+/* Ulubione, lista zakupów i strona "O mnie" */
+body[data-view="favorites"]::before,
+body[data-view="shopping"]::before,
+body[data-view="about"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
+    url('/tlo-deser.jpg');
+}
 
-        {view === 'detail' && selectedRecipeId && (
-          <RecipeDetail
-            recipe={getRecipe(selectedRecipeId)}
-            onEdit={() => navigate('edit', selectedRecipeId)}
-            onDelete={() => handleDelete(selectedRecipeId)}
-            onBack={() => navigate('dashboard')}
-            isFavorite={isFavorite(selectedRecipeId)}
-            onToggleFavorite={toggleFavorite}
-            onTrackView={trackView}
-            onTrackEbookClick={trackEbookClick}
-            isAdmin={isAdmin}
-            rating={getRating(selectedRecipeId)}
-            onRate={handleRate}
-            onAddToShoppingList={handleAddToShoppingList}
-            onGoToShoppingList={() => navigate('shopping')}
-          />
-        )}
+/* Formularze i panel admina — bez zdjęcia, żeby nie rozpraszało przy pisaniu */
+body[data-view="add"]::before,
+body[data-view="edit"]::before,
+body[data-view="admin"]::before {
+  background-image: none;
+}
 
-        {(view === 'add' || view === 'edit') && (
-          <AddEditRecipe
-            recipe={view === 'edit' ? getRecipe(selectedRecipeId) : null}
-            onSave={handleSaveRecipe}
-            onCancel={() => {
-              if (view === 'edit') navigate('detail', selectedRecipeId);
-              else navigate('dashboard');
-            }}
-          />
-        )}
+/* Powolny, ledwo zauważalny ruch tła (efekt "ambient" ze Stitcha) */
+@keyframes ambientPan {
+  0%   { background-position: 50% 50%; }
+  25%  { background-position: 52% 48%; }
+  50%  { background-position: 48% 52%; }
+  75%  { background-position: 51% 51%; }
+  100% { background-position: 50% 50%; }
+}
 
-        {view === 'about' && <AboutMe />}
+/* Szacunek dla osób, które w systemie wyłączyły animacje */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+}
 
-        {view === 'favorites' && (
-          <FavoritesCollection
-            recipes={recipes}
-            favorites={favorites}
-            onRecipeClick={(id) => navigate('detail', id)}
-            isFavorite={isFavorite}
-            onToggleFavorite={toggleFavorite}
-            getRating={getRating}
-          />
-        )}
+@layer components {
+  .btn-primary {
+    @apply bg-tertiary hover:bg-on-tertiary-container text-on-tertiary font-medium px-6 py-3 rounded-full transition-all duration-200 shadow-card hover:shadow-card-hover active:scale-95;
+  }
 
-        {view === 'shopping' && (
-          <ShoppingListView
-            items={shoppingItems}
-            onToggle={toggleShoppingItem}
-            onRemove={removeShoppingItem}
-            onRemoveRecipeGroup={removeRecipeItems}
-            onClearChecked={clearChecked}
-            onClearAll={clearShoppingList}
-            onOpenRecipe={(id) => navigate('detail', id)}
-          />
-        )}
+  .btn-secondary {
+    @apply bg-surface-container-lowest hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium px-5 py-2.5 rounded-full transition-all duration-200;
+  }
 
-        {view === 'admin' && isAdmin && (
-          <AdminDashboard recipes={recipes} stats={stats} />
-        )}
-      </main>
-      <Footer />
-      <PwaInstallBanner />
-    </div>
-    </ErrorBoundary>
-  );
+  .input-field {
+    @apply w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-tertiary/30 focus:border-tertiary transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-surface-container-lowest rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border border-outline-variant/20;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-label-caps font-sans uppercase tracking-widest;
+  }
+
+  .label-caps {
+    @apply text-label-caps font-sans uppercase tracking-widest;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #fff8f8;
+}
+::-webkit-scrollbar-thumb {
+  background: #d0c3c7;
+  border-radius: 3px;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
