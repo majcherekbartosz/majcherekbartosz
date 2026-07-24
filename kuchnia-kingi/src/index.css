@@ -29,9 +29,11 @@
    Liczba w rgba(255, 248, 248, X) to gęstość zasłony — im NIŻSZA,
    tym mocniej widać zdjęcie. Każdy ekran ma własną wartość,
    dobraną do jasności swojego zdjęcia:
-     strona główna .......... 0.85 (zdjęcie ciemniejsze, wystarczy)
-     widok przepisu ......... 0.70 (marmur bardzo jasny, potrzebuje mniej zasłony)
-     ulubione/zakupy/o mnie . 0.85
+     strona główna .......... 0.85  (rozmyte warzywa)
+     widok przepisu ......... 0.86  (deser — mocniejsza zasłona, bo kroki
+                                     przygotowania są pisane wprost na tle)
+     ulubione/zakupy/o mnie . 0.72  (marmur jest bardzo jasny i płaski,
+                                     dlatego potrzebuje najsłabszej zasłony)
    Jeśli tło ma być mocniejsze — obniż liczbę o 0.05 i sprawdź.
 
    JAK WYŁĄCZYĆ CAŁE TŁO:
@@ -62,8 +64,8 @@ body::before {
 /* Widok pojedynczego przepisu */
 body[data-view="detail"]::before {
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.70), rgba(255, 248, 248, 0.70)),
-    url('/tlo-kulinarne.jpg');
+    linear-gradient(rgba(255, 248, 248, 0.86), rgba(255, 248, 248, 0.86)),
+    url('/tlo-deser.jpg');
 }
 
 /* Ulubione, lista zakupów i strona "O mnie" */
@@ -71,8 +73,8 @@ body[data-view="favorites"]::before,
 body[data-view="shopping"]::before,
 body[data-view="about"]::before {
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
-    url('/tlo-deser.jpg');
+    linear-gradient(rgba(255, 248, 248, 0.72), rgba(255, 248, 248, 0.72)),
+    url('/tlo-kulinarne.jpg');
 }
 
 /* Formularze i panel admina — bez zdjęcia, żeby nie rozpraszało przy pisaniu */
