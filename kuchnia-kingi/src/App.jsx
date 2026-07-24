@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecipes } from './hooks/useRecipes';
 import { useFavorites } from './hooks/useFavorites';
 import { useRatings } from './hooks/useRatings';
@@ -38,6 +38,12 @@ export default function App() {
   const [view, setView] = useState('dashboard');
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
+
+  // Zapisuje aktualny ekran na znaczniku <body>, zeby index.css
+  // mogl podmieniac tlo strony zaleznie od widoku.
+  useEffect(() => {
+    document.body.dataset.view = view;
+  }, [view]);
 
   const navigate = (newView, recipeId = null) => {
     setView(newView);
