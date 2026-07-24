@@ -30,8 +30,9 @@
    tym mocniej widać zdjęcie. Każdy ekran ma własną wartość,
    dobraną do jasności swojego zdjęcia:
      strona główna .......... 0.85  (rozmyte warzywa)
-     widok przepisu ......... 0.86  (deser — mocniejsza zasłona, bo kroki
-                                     przygotowania są pisane wprost na tle)
+     widok przepisu ......... 0.93  (deser — bardzo mocna zasłona: na szerokim
+                                     monitorze zdjęcie jest mocno powiększone,
+                                     więc łatwo przytłacza tekst)
      ulubione/zakupy/o mnie . 0.72  (marmur jest bardzo jasny i płaski,
                                      dlatego potrzebuje najsłabszej zasłony)
    Jeśli tło ma być mocniejsze — obniż liczbę o 0.05 i sprawdź.
@@ -64,7 +65,7 @@ body::before {
 /* Widok pojedynczego przepisu */
 body[data-view="detail"]::before {
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.86), rgba(255, 248, 248, 0.86)),
+    linear-gradient(rgba(255, 248, 248, 0.93), rgba(255, 248, 248, 0.93)),
     url('/tlo-deser.jpg');
 }
 
