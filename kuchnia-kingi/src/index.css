@@ -15,24 +15,29 @@
 }
 
 /* ============================================================
-   TŁO STRONY — delikatna tekstura pod całą aplikacją
+   TŁO STRONY — inne zdjęcie na różnych ekranach
    ------------------------------------------------------------
-   Zdjęcie musi leżeć w folderze public/ pod nazwą tlo.jpg
-   (czyli: kuchnia-kingi/public/tlo.jpg)
+   Trzy zdjęcia muszą leżeć w folderze public/:
+     kuchnia-kingi/public/tlo-kulinarne.jpg
+     kuchnia-kingi/public/tlo-rozmyte.jpg
+     kuchnia-kingi/public/tlo-deser.jpg
+
+   JAK ZAMIENIĆ ZDJĘCIA MIĘDZY EKRANAMI:
+   Podmień nazwę pliku w linii url('...') przy danym ekranie.
 
    JAK ZMIENIĆ INTENSYWNOŚĆ:
-   W linii z "rgba(255, 248, 248, 0.90)" zmień ostatnią liczbę:
-     0.95 = tło prawie niewidoczne (bardzo delikatne)
+   Liczba 0.90 w rgba(255, 248, 248, 0.90) to gęstość zasłony:
+     0.95 = tło prawie niewidoczne
      0.90 = obecne ustawienie (subtelne)
      0.75 = tło wyraźnie widoczne
      0.60 = zdjęcie mocno widoczne (może utrudniać czytanie)
+   Zmieniaj ją wszędzie tak samo, żeby ekrany były spójne.
 
-   JAK WYŁĄCZYĆ ANIMACJĘ (a zostawić tło):
-   Usuń linię zaczynającą się od "animation: ambientPan".
-
-   JAK WYŁĄCZYĆ TŁO:
-   Usuń cały ten blok (od tego komentarza do zamykającego nawiasu).
+   JAK WYŁĄCZYĆ CAŁE TŁO:
+   Usuń wszystko od tego komentarza do końca bloku @media poniżej.
    ============================================================ */
+
+/* Warstwa tła — wspólna dla wszystkich ekranów */
 body::before {
   content: '';
   position: fixed;
@@ -42,16 +47,41 @@ body::before {
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
-    url('/tlo.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   animation: ambientPan 60s ease-in-out infinite;
+
+  /* Ekran domyślny: strona główna */
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    url('/tlo-kulinarne.jpg');
 }
 
-/* Powolny, ledwo zauwazalny ruch tla (efekt "ambient" ze Stitcha) */
+/* Widok pojedynczego przepisu */
+body[data-view="detail"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    url('/tlo-rozmyte.jpg');
+}
+
+/* Ulubione, lista zakupów i strona "O mnie" */
+body[data-view="favorites"]::before,
+body[data-view="shopping"]::before,
+body[data-view="about"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    url('/tlo-deser.jpg');
+}
+
+/* Formularze i panel admina — bez zdjęcia, żeby nie rozpraszało przy pisaniu */
+body[data-view="add"]::before,
+body[data-view="edit"]::before,
+body[data-view="admin"]::before {
+  background-image: none;
+}
+
+/* Powolny, ledwo zauważalny ruch tła (efekt "ambient" ze Stitcha) */
 @keyframes ambientPan {
   0%   { background-position: 50% 50%; }
   25%  { background-position: 52% 48%; }
@@ -60,7 +90,7 @@ body::before {
   100% { background-position: 50% 50%; }
 }
 
-/* Szacunek dla osob, ktore w systemie wylaczyly animacje */
+/* Szacunek dla osób, które w systemie wyłączyły animacje */
 @media (prefers-reduced-motion: reduce) {
   body::before {
     animation: none;
