@@ -406,6 +406,7 @@ export default function RecipeDetail({
 
           {/* Kroki przygotowania */}
           <div className="lg:col-span-3">
+            <div className="bg-surface-container-lowest/90 backdrop-blur-sm border border-outline-variant rounded-xl p-6 sm:p-8 shadow-soft">
             <h2 className="font-serif text-headline-lg text-on-surface mb-6">
               Sposób przygotowania
             </h2>
@@ -419,6 +420,7 @@ export default function RecipeDetail({
                 </li>
               ))}
             </ol>
+            </div>
           </div>
         </div>
       )}
