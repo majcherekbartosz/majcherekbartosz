@@ -1,7 +1,8 @@
-export const CATEGORIES = ['Śniadanie', 'Obiad', 'Kolacja', 'Deser', 'Przekąski'];
+export const CATEGORIES = ['Śniadanie', 'Zupa', 'Obiad', 'Kolacja', 'Deser', 'Przekąski'];
 
 export const CATEGORY_COLORS = {
   'Śniadanie': { bg: 'bg-pink-100', text: 'text-pink-700', border: 'border-pink-200' },
+  'Zupa':      { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
   'Obiad':     { bg: 'bg-rose-100', text: 'text-rose-700', border: 'border-rose-200' },
   'Kolacja':   { bg: 'bg-fuchsia-100', text: 'text-fuchsia-700', border: 'border-fuchsia-200' },
   'Deser':     { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-100' },
