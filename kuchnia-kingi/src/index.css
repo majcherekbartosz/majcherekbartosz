@@ -26,9 +26,9 @@
    Podmień nazwę pliku w linii url('...') przy danym ekranie.
 
    JAK ZMIENIĆ INTENSYWNOŚĆ:
-   Liczba 0.90 w rgba(255, 248, 248, 0.90) to gęstość zasłony:
+   Liczba 0.80 w rgba(255, 248, 248, 0.80) to gęstość zasłony:
      0.95 = tło prawie niewidoczne
-     0.90 = obecne ustawienie (subtelne)
+     0.80 = obecne ustawienie
      0.75 = tło wyraźnie widoczne
      0.60 = zdjęcie mocno widoczne (może utrudniać czytanie)
    Zmieniaj ją wszędzie tak samo, żeby ekrany były spójne.
@@ -54,14 +54,14 @@ body::before {
 
   /* Ekran domyślny: strona główna */
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
     url('/tlo-kulinarne.jpg');
 }
 
 /* Widok pojedynczego przepisu */
 body[data-view="detail"]::before {
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
     url('/tlo-rozmyte.jpg');
 }
 
@@ -70,7 +70,7 @@ body[data-view="favorites"]::before,
 body[data-view="shopping"]::before,
 body[data-view="about"]::before {
   background-image:
-    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
     url('/tlo-deser.jpg');
 }
 
