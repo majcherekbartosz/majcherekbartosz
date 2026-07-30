@@ -49,7 +49,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             </button>
           )}
           <button onClick={onLogoClick} className="flex items-center group" aria-label="Strona główna">
-            <img src="/logo.png" alt="Kuchnia Kingi" className="h-1 w-auto transition-transform group-hover:scale-105" />
+            <img src="/logo.png" alt="Kuchnia Kingi" className="h-15 w-auto transition-transform group-hover:scale-105" />
           </button>
         </div>
 
