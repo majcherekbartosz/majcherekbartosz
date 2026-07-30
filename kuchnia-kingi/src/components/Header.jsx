@@ -33,7 +33,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             <Menu size={20} className="text-primary" />
           </button>
         )}
-        <img src="/logo.png" alt="Kuchnia Kingi" className="h-8 w-auto" />
+        <img src="/logo.png" alt="Kuchnia Kingi" className="h-12 w-auto" />
         <button className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
           <Search size={20} />
         </button>
