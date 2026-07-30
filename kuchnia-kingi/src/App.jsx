@@ -39,11 +39,22 @@ export default function App() {
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
 
+  // Losowane RAZ przy wejsciu na strone: numer tla 1-9 dla strony glownej.
+  // useState z funkcja w srodku uruchamia losowanie tylko przy pierwszym
+  // renderze, wiec tlo nie zmienia sie w kolko podczas przegladania.
+  const [bgVariant] = useState(() => Math.floor(Math.random() * 9) + 1);
+
   // Zapisuje aktualny ekran na znaczniku <body>, zeby index.css
   // mogl podmieniac tlo strony zaleznie od widoku.
   useEffect(() => {
     document.body.dataset.view = view;
   }, [view]);
+
+  // Wpisuje wylosowany numer tla na <body data-bg="...">, zeby index.css
+  // mogl pokazac odpowiednie z 9 zdjec na stronie glownej.
+  useEffect(() => {
+    document.body.dataset.bg = bgVariant;
+  }, [bgVariant]);
 
   const navigate = (newView, recipeId = null) => {
     setView(newView);
