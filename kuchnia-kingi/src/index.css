@@ -17,19 +17,17 @@
 /* ============================================================
    TŁO STRONY — inne zdjęcie na różnych ekranach
    ------------------------------------------------------------
-   Trzy zdjęcia muszą leżeć w folderze public/:
-     kuchnia-kingi/public/tlo-kulinarne.jpg
+   Zdjęcia muszą leżeć w folderze public/, np.:
      kuchnia-kingi/public/tlo-rozmyte.jpg
+     kuchnia-kingi/public/tlo-kulinarne.jpg
      kuchnia-kingi/public/tlo-deser.jpg
-
-   JAK ZAMIENIĆ ZDJĘCIA MIĘDZY EKRANAMI:
-   Podmień nazwę pliku w linii url('...') przy danym ekranie.
+   (pełną listę 9 zdjęć strony głównej znajdziesz niżej)
 
    JAK ZMIENIĆ INTENSYWNOŚĆ:
    Liczba w rgba(255, 248, 248, X) to gęstość zasłony — im NIŻSZA,
    tym mocniej widać zdjęcie. Każdy ekran ma własną wartość,
    dobraną do jasności swojego zdjęcia:
-     strona główna .......... 0.85  (rozmyte warzywa)
+     strona główna .......... losuje 1 z 9 zdjęć (patrz blok ROTACJA niżej)
      widok przepisu ......... 0.93  (deser — bardzo mocna zasłona: na szerokim
                                      monitorze zdjęcie jest mocno powiększone,
                                      więc łatwo przytłacza tekst)
@@ -41,7 +39,9 @@
    Usuń wszystko od tego komentarza do końca bloku @media poniżej.
    ============================================================ */
 
-/* Warstwa tła — wspólna dla wszystkich ekranów */
+/* Warstwa tła — wspólna dla wszystkich ekranów.
+   Ten wpis jest też "awaryjny": pokazuje się przez ułamek sekundy,
+   zanim JavaScript zdąży wylosować numer tła strony głównej. */
 body::before {
   content: '';
   position: fixed;
@@ -56,10 +56,76 @@ body::before {
   background-repeat: no-repeat;
   animation: ambientPan 60s ease-in-out infinite;
 
-  /* Ekran domyślny: strona główna */
+  /* Zdjęcie awaryjne (zanim zadziała losowanie) */
   background-image:
     linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
     url('/tlo-rozmyte.jpg');
+}
+
+/* ============================================================
+   ROTACJA TŁA NA STRONIE GŁÓWNEJ — 9 zdjęć
+   ------------------------------------------------------------
+   Przy każdym wejściu na stronę App.jsx losuje liczbę 1–9
+   i wpisuje ją do <body data-bg="...">. Poniższe reguły
+   przypisują tej liczbie konkretne zdjęcie. Działają TYLKO
+   na stronie głównej (data-view="dashboard") — pozostałe
+   ekrany mają swoje stałe tła w dalszej części pliku.
+
+   Wszystkie 9 plików musi leżeć w public/:
+     tlo-rozmyte.jpg    tlo-kulinarne.jpg   tlo-deser.jpg
+     tlo-chleb.jpg      tlo-bazylia.jpg     tlo-porzeczki.jpg
+     tlo-migdaly.jpg    tlo-jagody.jpg      tlo-mleko.jpg
+
+   Liczba w rgba(255, 248, 248, X) działa tak samo jak wyżej:
+   im NIŻSZA, tym mocniej widać zdjęcie. Wartości startowe niżej
+   to tylko punkt wyjścia — jasne zdjęcia (mleko, marmur) dostały
+   słabszą zasłonę, resztę ustawiłem na 0.85. Po dodaniu plików
+   zerknij na każde tło i popraw liczbę o 0.05 w górę lub w dół.
+   ============================================================ */
+body[data-view="dashboard"][data-bg="1"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
+    url('/tlo-rozmyte.jpg');
+}
+body[data-view="dashboard"][data-bg="2"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.75), rgba(255, 248, 248, 0.75)),
+    url('/tlo-kulinarne.jpg');
+}
+body[data-view="dashboard"][data-bg="3"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.90), rgba(255, 248, 248, 0.90)),
+    url('/tlo-deser.jpg');
+}
+body[data-view="dashboard"][data-bg="4"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.83), rgba(255, 248, 248, 0.83)),
+    url('/tlo-chleb.jpg');
+}
+body[data-view="dashboard"][data-bg="5"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.78), rgba(255, 248, 248, 0.78)),
+    url('/tlo-bazylia.jpg');
+}
+body[data-view="dashboard"][data-bg="6"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
+    url('/tlo-porzeczki.jpg');
+}
+body[data-view="dashboard"][data-bg="7"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
+    url('/tlo-migdaly.jpg');
+}
+body[data-view="dashboard"][data-bg="8"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.85), rgba(255, 248, 248, 0.85)),
+    url('/tlo-jagody.jpg');
+}
+body[data-view="dashboard"][data-bg="9"]::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.75), rgba(255, 248, 248, 0.75)),
+    url('/tlo-mleko.jpg');
 }
 
 /* Widok pojedynczego przepisu */
