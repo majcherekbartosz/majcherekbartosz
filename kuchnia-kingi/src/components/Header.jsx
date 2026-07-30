@@ -33,7 +33,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             <Menu size={20} className="text-primary" />
           </button>
         )}
-        <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
+        <img src="/logo.png" alt="Kuchnia Kingi" className="h-8 w-auto" />
         <button className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
           <Search size={20} />
         </button>
@@ -48,8 +48,8 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
               <span className="text-body-sm">Wróć</span>
             </button>
           )}
-          <button onClick={onLogoClick} className="flex items-center gap-2 group" aria-label="Strona główna">
-            <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
+          <button onClick={onLogoClick} className="flex items-center group" aria-label="Strona główna">
+            <img src="/logo.png" alt="Kuchnia Kingi" className="h-9 w-auto transition-transform group-hover:scale-105" />
           </button>
         </div>
 
