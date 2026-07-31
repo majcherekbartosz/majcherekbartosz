@@ -33,7 +33,11 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             <Menu size={20} className="text-primary" />
           </button>
         )}
-        <img src="/logo.png" alt="Kuchnia Kingi" className="h-12 w-auto" />
+        {/* Znaczek + nazwa. alt="" bo nazwe czyta juz tekst obok (bez powtorzenia dla czytnikow ekranu) */}
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="" className="h-7 w-auto" />
+          <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
+        </div>
         <button className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
           <Search size={20} />
         </button>
@@ -48,8 +52,10 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
               <span className="text-body-sm">Wróć</span>
             </button>
           )}
-          <button onClick={onLogoClick} className="flex items-center group" aria-label="Strona główna">
-            <img src="/logo.png" alt="Kuchnia Kingi" className="h-12 w-auto transition-transform group-hover:scale-105" />
+          {/* Znaczek + nazwa "Kuchnia Kingi". alt="" bo nazwe czyta tekst obok */}
+          <button onClick={onLogoClick} className="flex items-center gap-2.5 group" aria-label="Strona główna">
+            <img src="/logo.png" alt="" className="h-10 w-auto transition-transform group-hover:scale-105" />
+            <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
           </button>
         </div>
 
