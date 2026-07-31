@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu } from 'lucide-react';
+import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu, X, User } from 'lucide-react';
 
 export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -20,6 +21,12 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
     setAdminDropdownOpen(false);
   };
 
+  // Uruchamia wybrana akcje nawigacji i zamyka wysuwane menu na telefonie.
+  const handleMobileNav = (action) => {
+    if (action) action();
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       {/* Mobile top bar */}
@@ -29,7 +36,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             <ArrowLeft size={20} />
           </button>
         ) : (
-          <button onClick={onLogoClick} className="w-10 h-10 flex items-center justify-center" aria-label="Menu">
+          <button onClick={() => setMobileMenuOpen(true)} className="w-10 h-10 flex items-center justify-center" aria-label="Menu">
             <Menu size={20} className="text-primary" />
           </button>
         )}
@@ -42,6 +49,43 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
           <Search size={20} />
         </button>
       </header>
+
+      {/* Mobile slide-out menu (otwierane ikona ☰) */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true">
+          {/* Przyciemnione tlo — klikniecie zamyka menu */}
+          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileMenuOpen(false)} />
+          {/* Panel wysuwany z lewej */}
+          <div className="absolute top-0 left-0 h-full w-72 max-w-[80%] bg-surface-container-lowest shadow-card-hover flex flex-col p-4 overflow-y-auto">
+            <div className="flex items-center justify-between mb-4 pl-2">
+              <div className="flex items-center gap-2">
+                <img src="/logo.png" alt="" className="h-7 w-auto" />
+                <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
+              </div>
+              <button onClick={() => setMobileMenuOpen(false)} className="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors" aria-label="Zamknij menu">
+                <X size={20} />
+              </button>
+            </div>
+
+            <MobileMenuItem icon={Home} label="Strona główna" active={currentView === 'dashboard'} onClick={() => handleMobileNav(onLogoClick)} />
+            <MobileMenuItem icon={Heart} label="Ulubione" active={currentView === 'favorites'} onClick={() => handleMobileNav(onFavorites)} />
+            <MobileMenuItem icon={ShoppingCart} label="Lista zakupów" badge={shoppingListCount} active={currentView === 'shopping'} onClick={() => handleMobileNav(onShoppingList)} />
+            <MobileMenuItem icon={User} label="O mnie" active={currentView === 'about'} onClick={() => handleMobileNav(onAbout)} />
+
+            <div className="border-t border-outline-variant/30 my-3" />
+
+            {isAdmin ? (
+              <>
+                <MobileMenuItem icon={Plus} label="Nowy przepis" onClick={() => handleMobileNav(onAddRecipe)} />
+                <MobileMenuItem icon={BarChart3} label="Analityka" active={currentView === 'admin'} onClick={() => handleMobileNav(onAnalytics)} />
+                <MobileMenuItem icon={LogOut} label="Wyloguj" danger onClick={() => handleMobileNav(onLogout)} />
+              </>
+            ) : (
+              <MobileMenuItem icon={LogIn} label="Panel Admina" onClick={() => handleMobileNav(onLogin)} />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Desktop top bar */}
       <header className="hidden md:flex sticky top-0 z-50 h-16 items-center justify-between px-margin-desktop bg-surface-container-lowest/80 backdrop-blur-md shadow-soft">
@@ -170,6 +214,29 @@ function MobileTab({ icon: Icon, label, active, onClick }) {
     <button onClick={onClick} className="flex flex-col items-center gap-0.5 py-2 px-3" aria-label={label}>
       <Icon size={20} className={active ? 'text-tertiary' : 'text-outline'} />
       <span className={`text-[10px] font-medium ${active ? 'text-tertiary' : 'text-outline'}`}>{label}</span>
+    </button>
+  );
+}
+
+function MobileMenuItem({ icon: Icon, label, active, badge = 0, danger, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-3 w-full text-left px-3 py-3 rounded-xl text-body-md font-medium transition-colors ${
+        danger
+          ? 'text-error hover:bg-error-container/30'
+          : active
+            ? 'bg-primary-container text-on-primary-container'
+            : 'text-on-surface hover:bg-surface-container hover:text-tertiary'
+      }`}
+    >
+      <Icon size={18} />
+      <span className="flex-1">{label}</span>
+      {badge > 0 && (
+        <span className="min-w-5 h-5 px-1.5 flex items-center justify-center rounded-full bg-tertiary text-on-tertiary text-[11px] font-semibold tabular-nums">
+          {badge}
+        </span>
+      )}
     </button>
   );
 }
