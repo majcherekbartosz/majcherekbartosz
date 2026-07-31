@@ -129,17 +129,17 @@ body[data-view="detail"]::before {
     url('/tlo-deser.jpg');
 }
 
-/* Widok przepisu — gdy przepis MA własne zdjęcie: tłem jest to zdjęcie,
-   rozmyte i lekko powiększone (scale ukrywa rozmyte krawędzie).
-   Adres zdjęcia podaje App.jsx w zmiennej --recipe-bg.
-   Ta reguła jest PO regule zapasowej, więc wygrywa, gdy zdjęcie jest.
-   Zasłona 0.80 — mocno widać zdjęcie, a tekst przepisu zostaje czytelny. */
+/* Widok przepisu — gdy przepis MA własne zdjęcie: tłem jest to zdjęcie.
+   Adres zdjęcia podaje App.jsx w zmiennej --recipe-bg (jeśli jej nie ma,
+   awaryjnie użyjemy tlo-deser.jpg). Reguła jest PO regule zapasowej, więc
+   wygrywa, gdy zdjęcie jest. Zasłona 0.80 — zdjęcie ładnie przygaszone,
+   a tekst przepisu zostaje czytelny.
+   UWAGA: świadomie BEZ filter:blur i transform — na warstwie z ujemnym
+   z-index rozmycie chowało całe tło za tłem strony (znikało). */
 body[data-recipe-bg="on"]::before {
   background-image:
     linear-gradient(rgba(255, 248, 248, 0.80), rgba(255, 248, 248, 0.80)),
-    var(--recipe-bg);
-  filter: blur(8px);
-  transform: scale(1.1);
+    var(--recipe-bg, url('/tlo-deser.jpg'));
 }
 
 /* Ulubione, lista zakupów i strona "O mnie" */
@@ -151,11 +151,15 @@ body[data-view="about"]::before {
     url('/tlo-kulinarne.jpg');
 }
 
-/* Formularze i panel admina — bez zdjęcia, żeby nie rozpraszało przy pisaniu */
+/* Formularze (dodaj/edytuj przepis) i panel admina/Analityka — marmurowe tło.
+   Marmur (tlo-kulinarne.jpg) jest jasny i płaski, więc nie przeszkadza przy pisaniu.
+   Zasłona 0.70 — subtelny marmur; niżej = mocniejszy, wyżej = delikatniejszy. */
 body[data-view="add"]::before,
 body[data-view="edit"]::before,
 body[data-view="admin"]::before {
-  background-image: none;
+  background-image:
+    linear-gradient(rgba(255, 248, 248, 0.70), rgba(255, 248, 248, 0.70)),
+    url('/tlo-kulinarne.jpg');
 }
 
 /* Powolny, ledwo zauważalny ruch tła (efekt "ambient" ze Stitcha) */
