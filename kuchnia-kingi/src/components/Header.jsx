@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -70,6 +70,22 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
           >
             <Heart size={15} />
             <span>Ulubione</span>
+          </button>
+          <button
+            onClick={onShoppingList}
+            className={`flex items-center gap-1.5 text-body-sm font-medium px-4 py-2 rounded-full transition-all duration-200 ${
+              currentView === 'shopping'
+                ? 'bg-primary-container text-on-primary-container'
+                : 'text-on-surface-variant hover:bg-surface-container hover:text-tertiary'
+            }`}
+          >
+            <ShoppingCart size={15} />
+            <span>Lista zakupów</span>
+            {shoppingListCount > 0 && (
+              <span className="min-w-5 h-5 px-1.5 flex items-center justify-center rounded-full bg-tertiary text-on-tertiary text-[11px] font-semibold tabular-nums">
+                {shoppingListCount}
+              </span>
+            )}
           </button>
           <button
             onClick={onAbout}
@@ -141,7 +157,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
               <Plus size={24} />
             </button>
           </div>
-          <MobileTab icon={ShoppingCart} label="Zakupy" active={false} onClick={onLogoClick} />
+          <MobileTab icon={ShoppingCart} label="Zakupy" active={currentView === 'shopping'} onClick={onShoppingList} />
           <MobileTab icon={Search} label="Szukaj" active={false} onClick={onLogoClick} />
         </div>
       </nav>
