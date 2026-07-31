@@ -426,7 +426,7 @@ export default function RecipeDetail({
       )}
 
       {/* Sekcja e-booka */}
-      <div className="mt-stack-lg bg-surface-container rounded-xl p-8 sm:p-10 text-center border border-outline-variant">
+      <div className="mt-stack-lg bg-surface-container-lowest/95 backdrop-blur-sm rounded-xl p-8 sm:p-10 text-center border border-outline-variant shadow-card">
         <div className="w-14 h-14 bg-tertiary-container rounded-full flex items-center justify-center mx-auto mb-4">
           <ChefHat size={26} className="text-tertiary" />
         </div>
