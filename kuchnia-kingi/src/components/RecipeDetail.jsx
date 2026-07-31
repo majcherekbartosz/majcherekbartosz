@@ -52,7 +52,13 @@ export default function RecipeDetail({
 
   const handleAddToGlobalList = () => {
     if (!recipe || !onAddToShoppingList) return;
-    const added = onAddToShoppingList(recipe, shoppingItems);
+    // Jesli uzytkownik zaznaczyl jakies skladniki - dodaj tylko je.
+    // Jesli nic nie zaznaczono - dodaj cala liste przepisu.
+    const chosenIngredients = recipe.ingredients.filter((_, i) => isChecked(i));
+    const itemsToAdd = chosenIngredients.length > 0
+      ? buildRecipeShoppingItems({ ...recipe, ingredients: chosenIngredients }, servings)
+      : shoppingItems;
+    const added = onAddToShoppingList(recipe, itemsToAdd);
     if (added > 0) {
       setListFeedback(
         `Dodano ${added} ${added === 1 ? 'składnik' : added < 5 ? 'składniki' : 'składników'} do listy zakupów`
@@ -327,7 +333,7 @@ export default function RecipeDetail({
                 </div>
               </div>
               <p className="text-body-sm text-on-surface-variant mb-4">
-                Dla {servings} {servings === 1 ? 'porcji' : 'porcji'} — zaznacz w sklepie lub dodaj do zbiorczej listy
+                Dla {servings} {servings === 1 ? 'porcji' : 'porcji'} — zaznacz składniki, które chcesz dodać, albo dodaj wszystkie
               </p>
 
               <ul className="space-y-1 mb-5">
@@ -371,7 +377,7 @@ export default function RecipeDetail({
                     className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-full text-body-sm font-semibold bg-tertiary hover:bg-on-tertiary-container text-on-tertiary transition-all duration-200 shadow-soft hover:shadow-card active:scale-95"
                   >
                     <ListPlus size={16} />
-                    Dodaj do listy zakupów
+                    {checkedCount > 0 ? `Dodaj zaznaczone (${checkedCount})` : 'Dodaj wszystkie do listy'}
                   </button>
                 )}
                 <div className="flex flex-wrap gap-2">
