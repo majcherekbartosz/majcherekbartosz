@@ -191,16 +191,18 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
         <div className="flex items-center justify-around h-16">
           <MobileTab icon={Home} label="Discover" active={currentView === 'dashboard'} onClick={onLogoClick} />
           <MobileTab icon={Heart} label="Saved" active={currentView === 'favorites'} onClick={onFavorites} />
-          {/* Center FAB */}
-          <div className="relative -mt-6">
-            <button
-              onClick={isAdmin ? onAddRecipe : onLogoClick}
-              className="w-14 h-14 rounded-full bg-tertiary text-on-tertiary shadow-card flex items-center justify-center active:scale-90 transition-transform"
-              aria-label="Dodaj przepis"
-            >
-              <Plus size={24} />
-            </button>
-          </div>
+          {/* Center FAB — tylko dla zalogowanego admina (dodawanie przepisu) */}
+          {isAdmin && (
+            <div className="relative -mt-6">
+              <button
+                onClick={onAddRecipe}
+                className="w-14 h-14 rounded-full bg-tertiary text-on-tertiary shadow-card flex items-center justify-center active:scale-90 transition-transform"
+                aria-label="Dodaj przepis"
+              >
+                <Plus size={24} />
+              </button>
+            </div>
+          )}
           <MobileTab icon={ShoppingCart} label="Zakupy" active={currentView === 'shopping'} onClick={onShoppingList} />
           <MobileTab icon={Search} label="Szukaj" active={false} onClick={onLogoClick} />
         </div>
