@@ -56,6 +56,22 @@ export default function App() {
     document.body.dataset.bg = bgVariant;
   }, [bgVariant]);
 
+  // Tlo widoku pojedynczego przepisu: jesli przepis ma wlasne zdjecie,
+  // uzywamy go (rozmytego) jako tla strony. Ustawiamy zmienna CSS
+  // --recipe-bg z adresem zdjecia i znacznik <body data-recipe-bg="on">,
+  // ktore index.css zamienia na rozmyte tlo. Gdy przepis nie ma zdjecia
+  // (albo jestesmy na innym ekranie) - czyscimy, wraca zwykle tlo.
+  useEffect(() => {
+    const recipe = view === 'detail' && selectedRecipeId ? getRecipe(selectedRecipeId) : null;
+    if (recipe && recipe.image) {
+      document.body.style.setProperty('--recipe-bg', `url("${recipe.image}")`);
+      document.body.dataset.recipeBg = 'on';
+    } else {
+      document.body.style.removeProperty('--recipe-bg');
+      delete document.body.dataset.recipeBg;
+    }
+  }, [view, selectedRecipeId, getRecipe]);
+
   const navigate = (newView, recipeId = null) => {
     setView(newView);
     setSelectedRecipeId(recipeId);
