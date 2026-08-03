@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, Plus, X, UtensilsCrossed } from 'lucide-react';
 import RecipeCard from './RecipeCard';
 import { CATEGORIES } from '../data/mockRecipes';
@@ -6,11 +6,20 @@ import { CATEGORIES } from '../data/mockRecipes';
 const ALL = 'Wszystkie';
 const QUICK = 'Szybkie (15 min)';
 
-export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavorite, onToggleFavorite }) {
+export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavorite, onToggleFavorite, focusSearchSignal }) {
   const [query, setQuery] = useState('');
   const [ingredientQuery, setIngredientQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(ALL);
   const [searchMode, setSearchMode] = useState('title');
+  const searchInputRef = useRef(null);
+
+  // Po klinieciu "Szukaj" (licznik rosnie) ustaw kursor w polu wyszukiwania.
+  // Na telefonie fokus otwiera klawiature i przewija do pola.
+  useEffect(() => {
+    if (focusSearchSignal > 0 && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [focusSearchSignal]);
 
   const filtered = useMemo(() => {
     return recipes.filter((r) => {
@@ -42,6 +51,7 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
       <div className="relative mb-6">
         <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
         <input
+          ref={searchInputRef}
           type="search"
           value={searchMode === 'ingredients' ? ingredientQuery : query}
           onChange={(e) => searchMode === 'ingredients' ? setIngredientQuery(e.target.value) : setQuery(e.target.value)}
