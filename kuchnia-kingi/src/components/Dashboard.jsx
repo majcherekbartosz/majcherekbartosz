@@ -111,7 +111,7 @@ export default function Dashboard({ recipes, onRecipeClick, onAddRecipe, isFavor
                 role="button"
                 tabIndex={0}
               >
-                <div className="relative aspect-[4/3] md:aspect-auto md:h-[52vh] overflow-hidden">
+                <div className="relative aspect-[4/3] md:aspect-auto md:h-[58vh] overflow-hidden">
                   <img
                     src={featuredRecipe.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=70'}
                     alt={featuredRecipe.title}
