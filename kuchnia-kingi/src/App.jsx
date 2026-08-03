@@ -39,6 +39,9 @@ export default function App() {
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
 
+  // Licznik "wymus fokus w wyszukiwarce" — rosnie po kliknieciu "Szukaj".
+  const [searchFocusSignal, setSearchFocusSignal] = useState(0);
+
   // Losowane RAZ przy wejsciu na strone: numer tla 1-9 dla strony glownej.
   // useState z funkcja w srodku uruchamia losowanie tylko przy pierwszym
   // renderze, wiec tlo nie zmienia sie w kolko podczas przegladania.
@@ -78,6 +81,13 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // "Szukaj" na telefonie: przejdz na strone glowna i ustaw kursor w polu
+  // wyszukiwania. Zwiekszenie licznika wymusza fokus nawet gdy juz tam jestesmy.
+  const handleSearch = () => {
+    navigate('dashboard');
+    setSearchFocusSignal((n) => n + 1);
+  };
+
   const handleSaveRecipe = (data) => {
     if (view === 'edit' && selectedRecipeId) {
       updateRecipe(selectedRecipeId, data);
@@ -113,6 +123,7 @@ export default function App() {
         onFavorites={() => navigate('favorites')}
         onShoppingList={() => navigate('shopping')}
         onAnalytics={() => navigate('admin')}
+        onSearch={handleSearch}
         shoppingListCount={uncheckedCount}
         showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'shopping' && view !== 'admin'}
         onBack={() => {
@@ -139,6 +150,7 @@ export default function App() {
             isFavorite={isFavorite}
             onToggleFavorite={toggleFavorite}
             getRating={getRating}
+            focusSearchSignal={searchFocusSignal}
           />
         )}
 
