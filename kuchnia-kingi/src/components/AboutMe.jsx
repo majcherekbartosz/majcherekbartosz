@@ -10,7 +10,6 @@ const CHECKOUT_URL = 'https://naffy.io/miejsce-na-twoj-link';
 const SOCIALS = [
   { name: 'Instagram', url: 'https://instagram.com/' },
   { name: 'TikTok', url: 'https://tiktok.com/' },
-  { name: 'YouTube', url: 'https://youtube.com/' },
   { name: 'Facebook', url: 'https://facebook.com/' },
 ];
 
