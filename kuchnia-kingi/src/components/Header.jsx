@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu, X, User } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, onSearch, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -45,7 +45,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
           <img src="/logo.png" alt="" className="h-7 w-auto" />
           <span className="font-serif text-headline-md text-tertiary">Kuchnia Kingi</span>
         </div>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
+        <button onClick={onSearch} className="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container transition-colors" aria-label="Szukaj">
           <Search size={20} />
         </button>
       </header>
@@ -204,7 +204,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             </div>
           )}
           <MobileTab icon={ShoppingCart} label="Zakupy" active={currentView === 'shopping'} onClick={onShoppingList} />
-          <MobileTab icon={Search} label="Szukaj" active={false} onClick={onLogoClick} />
+          <MobileTab icon={Search} label="Szukaj" active={false} onClick={onSearch} />
         </div>
       </nav>
     </>
