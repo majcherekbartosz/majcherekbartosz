@@ -110,10 +110,10 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
       {/* Page Header */}
       <div className="mb-8">
-        <p className="text-sm font-medium text-terracotta-500 uppercase tracking-widest mb-1 font-sans">
+        <p className="text-sm font-medium text-tertiary uppercase tracking-widest mb-1 font-sans">
           {isEdit ? 'Edytuj przepis' : 'Nowy przepis'}
         </p>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-charcoal-800">
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-on-surface">
           {isEdit ? recipe.title : 'Dodaj przepis'}
         </h1>
       </div>
@@ -121,8 +121,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
       <form onSubmit={handleSubmit} noValidate className="space-y-8">
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-            Nazwa przepisu <span className="text-terracotta-500">*</span>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">
+            Nazwa przepisu <span className="text-tertiary">*</span>
           </label>
           <input
             type="text"
@@ -137,7 +137,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
         {/* Category + Time + Servings */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
               Kategoria
             </label>
             <select
@@ -153,8 +153,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-              Czas (min) <span className="text-terracotta-500">*</span>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              Czas (min) <span className="text-tertiary">*</span>
             </label>
             <input
               type="number"
@@ -167,8 +167,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
             {errors.prepTime && <p className="text-red-500 text-sm mt-1">{errors.prepTime}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-              Porcje <span className="text-terracotta-500">*</span>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              Porcje <span className="text-tertiary">*</span>
             </label>
             <input
               type="number"
@@ -184,8 +184,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-            Krótki opis <span className="text-terracotta-500">*</span>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">
+            Krótki opis <span className="text-tertiary">*</span>
           </label>
           <textarea
             rows={3}
@@ -199,7 +199,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
         {/* Premium Toggle */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-2">
+          <label className="block text-sm font-medium text-on-surface mb-2">
             Dostępność przepisu
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -208,23 +208,23 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
               onClick={() => set('isPremium', false)}
               className={`relative flex items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-200 text-left ${
                 !form.isPremium
-                  ? 'border-sage-500 bg-sage-500/5 shadow-sm'
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  ? 'border-tertiary bg-tertiary/5 shadow-sm'
+                  : 'border-outline-variant bg-surface-container-lowest hover:border-tertiary/60'
               }`}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
-                !form.isPremium ? 'bg-sage-500 text-white' : 'bg-gray-100 text-gray-400'
+                !form.isPremium ? 'bg-tertiary text-white' : 'bg-gray-100 text-gray-400'
               }`}>
                 <Globe size={18} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-semibold ${!form.isPremium ? 'text-sage-700' : 'text-charcoal-700'}`}>
+                <p className={`text-sm font-semibold ${!form.isPremium ? 'text-tertiary' : 'text-on-surface'}`}>
                   Przepis darmowy
                 </p>
                 <p className="text-xs text-gray-400 mt-0.5">Ogólnodostępny dla wszystkich</p>
               </div>
               {!form.isPremium && (
-                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-sage-500 rounded-full flex items-center justify-center">
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-tertiary rounded-full flex items-center justify-center">
                   <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                     <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -236,23 +236,23 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
               onClick={() => set('isPremium', true)}
               className={`relative flex items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-200 text-left ${
                 form.isPremium
-                  ? 'border-terracotta-500 bg-terracotta-500/5 shadow-sm'
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  ? 'border-tertiary bg-tertiary/5 shadow-sm'
+                  : 'border-outline-variant bg-surface-container-lowest hover:border-tertiary/60'
               }`}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
-                form.isPremium ? 'bg-terracotta-500 text-white' : 'bg-gray-100 text-gray-400'
+                form.isPremium ? 'bg-tertiary text-white' : 'bg-gray-100 text-gray-400'
               }`}>
                 <Lock size={18} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-semibold ${form.isPremium ? 'text-terracotta-700' : 'text-charcoal-700'}`}>
+                <p className={`text-sm font-semibold ${form.isPremium ? 'text-tertiary' : 'text-on-surface'}`}>
                   Przepis Premium
                 </p>
                 <p className="text-xs text-gray-400 mt-0.5">Dostępny po zakupie E-booka</p>
               </div>
               {form.isPremium && (
-                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-terracotta-500 rounded-full flex items-center justify-center">
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-tertiary rounded-full flex items-center justify-center">
                   <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                     <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -264,7 +264,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
         {/* Image Upload */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
+          <label className="block text-sm font-medium text-on-surface mb-1.5">
             Zdjęcie przepisu
           </label>
           <div className="space-y-3">
@@ -291,12 +291,12 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
             {/* Upload from device */}
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-cream-300 hover:border-terracotta-300 rounded-2xl p-6 text-center cursor-pointer transition-colors group"
+              className="border-2 border-dashed border-outline-variant hover:border-tertiary rounded-2xl p-6 text-center cursor-pointer transition-colors group"
             >
-              <div className="w-12 h-12 bg-cream-100 group-hover:bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
-                <Camera size={22} className="text-terracotta-400" />
+              <div className="w-12 h-12 bg-tertiary-container group-hover:bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
+                <Camera size={22} className="text-tertiary" />
               </div>
-              <p className="text-sm font-medium text-charcoal-700 mb-1">
+              <p className="text-sm font-medium text-on-surface mb-1">
                 Kliknij, by wybrać zdjęcie
               </p>
               <p className="text-xs text-gray-400">JPG, PNG, WEBP</p>
@@ -312,9 +312,9 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
             {/* OR URL */}
             <div className="relative flex items-center gap-3">
-              <div className="flex-1 h-px bg-cream-200" />
+              <div className="flex-1 h-px bg-outline-variant" />
               <span className="text-xs text-gray-400 font-medium">lub wklej URL</span>
-              <div className="flex-1 h-px bg-cream-200" />
+              <div className="flex-1 h-px bg-outline-variant" />
             </div>
             <div className="relative">
               <Upload size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -331,8 +331,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
         {/* Ingredients */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-            Składniki <span className="text-terracotta-500">*</span>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">
+            Składniki <span className="text-tertiary">*</span>
           </label>
           {errors.ingredients && <p className="text-red-500 text-sm mb-2">{errors.ingredients}</p>}
           <div className="space-y-2.5">
@@ -341,7 +341,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
                 <div className="flex items-center justify-center w-6 flex-shrink-0">
                   <GripVertical size={14} className="text-gray-300" />
                 </div>
-                <div className="w-5 h-5 flex-shrink-0 bg-terracotta-500 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 flex-shrink-0 bg-tertiary rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold leading-none">{i + 1}</span>
                 </div>
                 <input
@@ -369,7 +369,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
           <button
             type="button"
             onClick={addIngredient}
-            className="mt-3 flex items-center gap-2 text-sm text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors"
+            className="mt-3 flex items-center gap-2 text-sm text-tertiary hover:text-on-tertiary-container font-medium transition-colors"
           >
             <Plus size={15} />
             Dodaj składnik
@@ -378,8 +378,8 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
 
         {/* Steps */}
         <div>
-          <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
-            Kroki przygotowania <span className="text-terracotta-500">*</span>
+          <label className="block text-sm font-medium text-on-surface mb-1.5">
+            Kroki przygotowania <span className="text-tertiary">*</span>
           </label>
           {errors.steps && <p className="text-red-500 text-sm mb-2">{errors.steps}</p>}
           <div className="space-y-3">
@@ -388,7 +388,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
                 <div className="flex items-center justify-center w-6 mt-3 flex-shrink-0">
                   <GripVertical size={14} className="text-gray-300" />
                 </div>
-                <div className="w-7 h-7 flex-shrink-0 mt-2.5 bg-charcoal-800 rounded-full flex items-center justify-center">
+                <div className="w-7 h-7 flex-shrink-0 mt-2.5 bg-on-surface rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold">{i + 1}</span>
                 </div>
                 <textarea
@@ -413,7 +413,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
           <button
             type="button"
             onClick={addStep}
-            className="mt-3 flex items-center gap-2 text-sm text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors"
+            className="mt-3 flex items-center gap-2 text-sm text-tertiary hover:text-on-tertiary-container font-medium transition-colors"
           >
             <Plus size={15} />
             Dodaj krok
@@ -421,7 +421,7 @@ export default function AddEditRecipe({ recipe, onSave, onCancel }) {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-cream-200">
+        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-outline-variant">
           <button type="submit" className="btn-primary flex items-center justify-center gap-2 flex-1 sm:flex-none sm:px-10 py-3">
             <ChefHat size={16} />
             {isEdit ? 'Zapisz zmiany' : 'Dodaj przepis'}
