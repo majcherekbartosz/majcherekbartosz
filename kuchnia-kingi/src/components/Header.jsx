@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu, X, User } from 'lucide-react';
+import { Plus, ArrowLeft, LogIn, LogOut, BarChart3, ChevronDown, Settings, Home, Search, ShoppingCart, Heart, Menu, X, User, Shield } from 'lucide-react';
 
-export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, onSearch, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
+export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites, onShoppingList, shoppingListCount = 0, onAnalytics, onSearch, onPrivacy, showBack, onBack, currentView, isAdmin, onLogin, onLogout }) {
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -71,6 +71,7 @@ export default function Header({ onLogoClick, onAddRecipe, onAbout, onFavorites,
             <MobileMenuItem icon={Heart} label="Ulubione" active={currentView === 'favorites'} onClick={() => handleMobileNav(onFavorites)} />
             <MobileMenuItem icon={ShoppingCart} label="Lista zakupów" badge={shoppingListCount} active={currentView === 'shopping'} onClick={() => handleMobileNav(onShoppingList)} />
             <MobileMenuItem icon={User} label="O mnie" active={currentView === 'about'} onClick={() => handleMobileNav(onAbout)} />
+            <MobileMenuItem icon={Shield} label="Polityka prywatności" active={currentView === 'privacy'} onClick={() => handleMobileNav(onPrivacy)} />
 
             <div className="border-t border-outline-variant/30 my-3" />
 
