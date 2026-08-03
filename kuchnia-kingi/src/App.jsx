@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import RecipeDetail from './components/RecipeDetail';
 import AddEditRecipe from './components/AddEditRecipe';
 import AboutMe from './components/AboutMe';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import FavoritesCollection from './components/FavoritesCollection';
 import ShoppingListView from './components/ShoppingListView';
 import AdminDashboard from './components/AdminDashboard';
@@ -124,6 +125,7 @@ export default function App() {
         onShoppingList={() => navigate('shopping')}
         onAnalytics={() => navigate('admin')}
         onSearch={handleSearch}
+        onPrivacy={() => navigate('privacy')}
         shoppingListCount={uncheckedCount}
         showBack={view !== 'dashboard' && view !== 'about' && view !== 'favorites' && view !== 'shopping' && view !== 'admin'}
         onBack={() => {
@@ -185,6 +187,8 @@ export default function App() {
 
         {view === 'about' && <AboutMe />}
 
+        {view === 'privacy' && <PrivacyPolicy />}
+
         {view === 'favorites' && (
           <FavoritesCollection
             recipes={recipes}
@@ -212,7 +216,7 @@ export default function App() {
           <AdminDashboard recipes={recipes} stats={stats} />
         )}
       </main>
-      <Footer />
+      <Footer onPrivacy={() => navigate('privacy')} />
       <PwaInstallBanner />
     </div>
     </ErrorBoundary>
